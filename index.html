@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Hace que se adapte a celulares y computadoras -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MateLabs</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #000000;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .contenedor {
+            width: 100%;
+            max-width: 900px;
+            margin: auto;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .pantalla {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 30px;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+        .subtitulo {
+            color: #cccccc;
+            margin-bottom: 30px;
+        }
+
+        /* BOTONES */
+
+        button {
+            background: #1479ff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 14px 28px;
+            margin: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #0d5dcc;
+            transform: scale(1.03);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .boton-grande {
+            font-size: 22px;
+            padding: 16px 45px;
+        }
+
+        /* ENTRADA */
+
+        input {
+            width: 250px;
+            max-width: 90%;
+            padding: 13px;
+            border-radius: 8px;
+            border: 2px solid #333;
+            background: #111;
+            color: white;
+            text-align: center;
+            font-size: 18px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #1479ff;
+        }
+
+        /* TARJETAS */
+
+        .tarjeta {
+            width: 100%;
+            background: #0d0d0d;
+            border: 1px solid #292929;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .estadisticas {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .estadistica {
+            background: #111;
+            border: 1px solid #292929;
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .estadistica strong {
+            display: block;
+            font-size: 25px;
+            margin-top: 5px;
+        }
+
+        /* DIFICULTADES */
+
+        .niveles {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
+        }
+
+        .nivel {
+            background: #101010;
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .nivel button {
+            width: 90%;
+        }
+
+        /* EJERCICIO */
+
+        #pregunta {
+            font-size: 42px;
+            margin: 30px 0;
+        }
+
+        #numeroEjercicio {
+            color: #aaaaaa;
+        }
+
+        .mensaje {
+            min-height: 30px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* BARRA DE PROGRESO */
+
+        .barra-fondo {
+            width: 100%;
+            height: 18px;
+            background: #222;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .barra {
+            height: 100%;
+            width: 0%;
+            background: #1479ff;
+            transition: width 0.3s;
+        }
+
+        /* TROFEOS */
+
+        .trofeos {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .trofeo {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 12px 5px;
+            font-size: 14px;
+        }
+
+        .trofeo.conseguido {
+            border-color: #1479ff;
+            background: #101c2d;
+        }
+
+        .trofeo-bloqueado {
+            opacity: 0.35;
+        }
+
+        .icono-trofeo {
+            font-size: 25px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* OCULTAR */
+
+        .oculto {
+            display: none !important;
+        }
+
+        /* FIRMA */
+
+        #firma {
+            position: fixed;
+            right: 15px;
+            bottom: 10px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        /* CELULAR */
+
+        @media (max-width: 650px) {
+
+            .contenedor {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            h2 {
+                font-size: 25px;
+            }
+
+            #pregunta {
+                font-size: 32px;
+            }
+
+            .niveles {
+                grid-template-columns: 1fr;
+            }
+
+            .estadisticas {
+                grid-template-columns: 1fr;
+            }
+
+            .trofeos {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            button {
+                width: 90%;
+                max-width: 350px;
+            }
+
+            .boton-grande {
+                width: 90%;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <!-- ========================= -->
+    <!-- PANTALLA DE INICIO -->
+    <!-- ========================= -->
+
+    <section id="inicio" class="pantalla">
+
+        <h1>🧠 MateLabs</h1>
+
+        <p class="subtitulo">
+            Entrenamiento mental y matemático
+        </p>
+
+        <input
+            type="password"
+            id="contrasena"
+            placeholder="Contraseña"
+        >
+
+        <button class="boton-grande" onclick="entrar()">
+            INICIAR
+        </button>
+
+        <p id="mensajeInicio" class="mensaje"></p>
+
+    </section>
+
+
+    <!-- ========================= -->
+    <!-- MENU PRINCIPAL -->
+    <!-- ========================= -->
+
+    <section id="menu" class="pantalla oculto">
+
+        <h1>MateLabs</h1>
+
+        <p>
+            Bienvenido al entrenamiento mental.
+        </p>
+
+        <div class="estadisticas">
+
+            <div class="estadistica">
+                🏆 Trofeos
+                <strong id="mostrarTrofeos">0</strong>
+            </div>
+
+            <div class="estadistica">
+                ⭐ Puntos
+                <strong id="mostrarPuntos">0</strong>
+            </div>
+
+            <div class="estadistica">
+                📈 Rango
+                <strong id="mostrarRango">Principiante</strong>
+            </div>
+
+        </div>
+
+        <button onclick="mostrarNiveles()">
+            🧠 JUGAR
+        </button>
+
+        <button onclick="mostrarTrofeos()">
+            🏆 VER TROFEOS
+        </button>
+
+    </section>
+
+
+    <!-- ========================= -->
+    <!-- DIFICULTADES -->
+    <!-- ========================= -->
+
+    <section id="niveles" class="pantalla oculto">
+
+        <h1>Elegí un nivel</h1>
+
+        <p>
+            Tenés
+            <strong id="cantidadEjerciciosTexto">5</strong>
+            ejercicios en esta partida.
+        </p>
+
+        <div class="niveles">
+
+            <div class="nivel">
+
+                <h2>🟢 Básico</h2>
+
+                <p>
+                    Operaciones sencillas y rápidas.
+                </p>
+
+                <button onclick="empezarJuego('basico')">
+                    Elegir
+                </button>
+
+            </div>
+
+
+            <div class="nivel">
+
+                <h2>🟡 Intermedio</h2>
+
+                <p>
+                    Operaciones un poco más complejas.
+                </p>
+
+                <button onclick="empezarJuego('intermedio')">
+                    Elegir
+                </button>
+
+            </div>
+
+
+            <div class="nivel">
+
+                <h2>🔴 Avanzado</h2>
+
+                <p>
+                    Operaciones y razonamiento.
+                </p>
+
+                <button onclick="empezarJuego('avanzado')">
+                    Elegir
+                </button>
+
+            </div>
+
+        </div>
+
+        <button onclick="volverMenu()">
+            Volver
+        </button>
+
+    </section>
+
+
+    <!-- ========================= -->
+    <!-- JUEGO -->
+    <!-- ========================= -->
+
+    <section id="juego" class="pantalla oculto">
+
+        <h2 id="tituloNivel">
+            Nivel
+        </h2>
+
+        <p id="numeroEjercicio">
+            Ejercicio 1
+        </p>
+
+        <div class="barra-fondo">
+            <div id="barraProgreso" class="barra"></div>
+        </div>
+
+        <div class="tarjeta">
+
+            <div id="pregunta">
+                5 + 5 = ?
+            </div>
+
+            <input
+                type="number"
+                id="respuesta"
+                placeholder="Respuesta"
+                onkeydown="teclaEnter(event)"
+            >
+
+            <br>
+
+            <button onclick="comprobarRespuesta()">
+                RESPONDER
+            </button>
+
+            <p id="resultado" class="mensaje"></p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================= -->
+    <!-- RESULTADO -->
+    <!-- ========================= -->
+
+    <section id="final" class="pantalla oculto">
+
+        <h1>🏁 Resultado</h1>
+
+        <div class="tarjeta">
+
+            <h2 id="resultadoPuntaje">
+                0 / 5
+            </h2>
+
+            <p id="resultadoPorcentaje">
+                0%
+            </p>
+
+            <p id="resultadoRacha">
+                🔥 Racha: 0
+            </p>
+
+            <p id="resultadoTrofeo">
+                🏆
+            </p>
+
+        </div>
+
+        <button onclick="mostrarNiveles()">
+            Jugar otra vez
+        </button>
+
+        <button onclick="volverMenu()">
+            Menú principal
+        </button>
+
+    </section>
+
+
+    <!-- ========================= -->
+    <!-- TROFEOS -->
+    <!-- ========================= -->
+
+    <section id="pantallaTrofeos" class="pantalla oculto">
+
+        <h1>🏆 Trofeos</h1>
+
+        <p>
+            Conseguí los 50 trofeos para completar MateLabs.
+        </p>
+
+        <p>
+            Progreso:
+            <strong id="progresoTrofeos">
+                0 / 50
+            </strong>
+        </p>
+
+        <div id="listaTrofeos" class="trofeos"></div>
+
+        <button onclick="volverMenu()">
+            Volver
+        </button>
+
+    </section>
+
+</div>
+
+
+<div id="firma">
+    Felipe Catania — 7°B
+</div>
+
+
+<script>
+
+    /*
+        ================================
+        DATOS DEL JUGADOR
+        ================================
+    */
+
+    const CONTRASENA = "7243257";
+
+    let trofeos = Number(localStorage.getItem("mateLabsTrofeos")) || 0;
+
+    let puntos = Number(localStorage.getItem("mateLabsPuntos")) || 0;
+
+
+    /*
+        ================================
+        DATOS DE LA PARTIDA
+        ================================
+    */
+
+    let nivelActual = "";
+
+    let ejercicioActual = 0;
+
+    let cantidadEjercicios = 5;
+
+    let aciertos = 0;
+
+    let racha = 0;
+
+    let mejorRacha = 0;
+
+    let respuestaCorrecta = 0;
+
+
+    /*
+        ================================
+        ENTRAR
+        ================================
+    */
+
+    function entrar() {
+
+        let clave = document.getElementById("contrasena").value;
+
+        if (clave === CONTRASENA) {
+
+            document.getElementById("inicio").classList.add("oculto");
+
+            document.getElementById("menu").classList.remove("oculto");
+
+            actualizarDatos();
+
+        } else {
+
+            document.getElementById("mensajeInicio").textContent =
+                "❌ Contraseña incorrecta.";
+
+        }
+    }
+
+
+    /*
+        ================================
+        MOSTRAR NIVELES
+        ================================
+    */
+
+    function mostrarNiveles() {
+
+        ocultarTodo();
+
+        document.getElementById("niveles").classList.remove("oculto");
+
+        cantidadEjercicios = 5 + trofeos;
+
+        document.getElementById("cantidadEjerciciosTexto").textContent =
+            cantidadEjercicios;
+    }
+
+
+    /*
+        ================================
+        EMPEZAR JUEGO
+        ================================
+    */
+
+    function empezarJuego(nivel) {
+
+        nivelActual = nivel;
+
+        ejercicioActual = 0;
+
+        aciertos = 0;
+
+        racha = 0;
+
+        mejorRacha = 0;
+
+        cantidadEjercicios = 5 + trofeos;
+
+        ocultarTodo();
+
+        document.getElementById("juego").classList.remove("oculto");
+
+        mostrarEjercicio();
+    }
+
+
+    /*
+        ================================
+        CREAR EJERCICIO
+        ================================
+    */
+
+    function mostrarEjercicio() {
+
+        document.getElementById("resultado").textContent = "";
+
+        document.getElementById("respuesta").value = "";
+
+        document.getElementById("respuesta").focus();
+
+
+        document.getElementById("numeroEjercicio").textContent =
+            "Ejercicio " +
+            (ejercicioActual + 1) +
+            " de " +
+            cantidadEjercicios;
+
+
+        let porcentaje =
+            (ejercicioActual / cantidadEjercicios) * 100;
+
+        document.getElementById("barraProgreso").style.width =
+            porcentaje + "%";
+
+
+        let a;
+        let b;
+        let operacion;
+
+
+        /*
+            NIVEL BÁSICO
+        */
+
+        if (nivelActual === "basico") {
+
+            let tipo = Math.floor(Math.random() * 3);
+
+            if (tipo === 0) {
+
+                a = numeroAleatorio(10, 80);
+                b = numeroAleatorio(1, 50);
+
+                respuestaCorrecta = a + b;
+
+                operacion = a + " + " + b + " = ?";
+
+            }
+
+            else if (tipo === 1) {
+
+                a = numeroAleatorio(20, 100);
+                b = numeroAleatorio(1, a);
+
+                respuestaCorrecta = a - b;
+
+                operacion = a + " - " + b + " = ?";
+
+            }
+
+            else {
+
+                a = numeroAleatorio(2, 12);
+                b = numeroAleatorio(2, 12);
+
+                respuestaCorrecta = a * b;
+
+                operacion = a + " × " + b + " = ?";
+            }
+
+
+            document.getElementById("tituloNivel").textContent =
+                "🟢 Nivel Básico";
+
+        }
+
+
+        /*
+            NIVEL INTERMEDIO
+        */
+
+        else if (nivelActual === "intermedio") {
+
+            let tipo = Math.floor(Math.random() * 3);
+
+            if (tipo === 0) {
+
+                a = numeroAleatorio(20, 150);
+                b = numeroAleatorio(10, 80);
+
+                respuestaCorrecta = a * b;
+
+                operacion = a + " × " + b + " = ?";
+
+            }
+
+            else if (tipo === 1) {
+
+                b = numeroAleatorio(2, 20);
+                respuestaCorrecta = numeroAleatorio(5, 50);
+
+                a = b * respuestaCorrecta;
+
+                operacion = a + " ÷ " + b + " = ?";
+
+            }
+
+            else {
+
+                a = numeroAleatorio(50, 200);
+                b = numeroAleatorio(10, 80);
+
+                respuestaCorrecta = a + b * 2;
+
+                operacion =
+                    a + " + " + b + " × 2 = ?";
+            }
+
+
+            document.getElementById("tituloNivel").textContent =
+                "🟡 Nivel Intermedio";
+
+        }
+
+
+        /*
+            NIVEL AVANZADO
+        */
+
+        else {
+
+            let tipo = Math.floor(Math.random() * 3);
+
+            if (tipo === 0) {
+
+                a = numeroAleatorio(10, 50);
+                b = numeroAleatorio(5, 30);
+
+                respuestaCorrecta =
+                    (a + b) * 2;
+
+                operacion =
+                    "(" + a + " + " + b + ") × 2 = ?";
+
+            }
+
+            else if (tipo === 1) {
+
+                a = numeroAleatorio(20, 100);
+                b = numeroAleatorio(5, 30);
+
+                respuestaCorrecta =
+                    a * b - a;
+
+                operacion =
+                    a + " × " + b + " - " + a + " = ?";
+
+            }
+
+            else {
+
+                a = numeroAleatorio(10, 50);
+                b = numeroAleatorio(2, 10);
+
+                respuestaCorrecta =
+                    a * a + b;
+
+                operacion =
+                    a + "² + " + b + " = ?";
+            }
+
+
+            document.getElementById("tituloNivel").textContent =
+                "🔴 Nivel Avanzado";
+        }
+
+
+        document.getElementById("pregunta").textContent =
+            operacion;
+    }
+
+
+    /*
+        ================================
+        COMPROBAR RESPUESTA
+        ================================
+    */
+
+    function comprobarRespuesta() {
+
+        let respuesta =
+            Number(document.getElementById("respuesta").value);
+
+
+        if (document.getElementById("respuesta").value === "") {
+
+            document.getElementById("resultado").textContent =
+                "⚠️ Escribí una respuesta.";
+
+            return;
+        }
+
+
+        if (respuesta === respuestaCorrecta) {
+
+            aciertos++;
+
+            racha++;
+
+            if (racha > mejorRacha) {
+                mejorRacha = racha;
+            }
+
+            document.getElementById("resultado").textContent =
+                "✅ ¡Correcto! 🔥";
+
+        } else {
+
+            racha = 0;
+
+            document.getElementById("resultado").textContent =
+                "❌ Incorrecto. Era " + respuestaCorrecta;
+        }
+
+
+        ejercicioActual++;
+
+
+        if (ejercicioActual >= cantidadEjercicios) {
+
+            setTimeout(terminarJuego, 700);
+
+        } else {
+
+            setTimeout(mostrarEjercicio, 700);
+        }
+    }
+
+
+    /*
+        ================================
+        TERMINAR JUEGO
+        ================================
+    */
+
+    function terminarJuego() {
+
+        let porcentaje =
+            Math.round((aciertos / cantidadEjercicios) * 100);
+
+
+        let ganoTrofeo = false;
+
+
+        /*
+            Para ganar un trofeo:
+            hay que conseguir al menos
+            el 80% de respuestas correctas.
+        */
+
+        if (porcentaje >= 80 && trofeos < 50) {
+
+            trofeos++;
+
+            puntos++;
+
+            ganoTrofeo = true;
+
+            guardarDatos();
+        }
+
+
+        document.getElementById("resultadoPuntaje").textContent =
+            aciertos + " / " + cantidadEjercicios;
+
+
+        document.getElementById("resultadoPorcentaje").textContent =
+            "📊 " + porcentaje + "% de aciertos";
+
+
+        document.getElementById("resultadoRacha").textContent =
+            "🔥 Mejor racha: " + mejorRacha;
+
+
+        if (ganoTrofeo) {
+
+            document.getElementById("resultadoTrofeo").textContent =
+                "🏆 ¡Ganaste un nuevo trofeo!";
+
+        } else {
+
+            if (trofeos >= 50) {
+
+                document.getElementById("resultadoTrofeo").textContent =
+                    "👑 ¡Conseguiste los 50 trofeos!";
+
+            } else {
+
+                document.getElementById("resultadoTrofeo").textContent =
+                    "💪 Seguí entrenando para conseguir otro trofeo.";
+
+            }
+        }
+
+
+        ocultarTodo();
+
+        document.getElementById("final").classList.remove("oculto");
+    }
+
+
+    /*
+        ================================
+        RANGO
+        ================================
+    */
+
+    function obtenerRango() {
+
+        if (puntos >= 50) {
+            return "👑 Maestro MateLabs";
+        }
+
+        if (puntos >= 40) {
+            return "💎 Experto";
+        }
+
+        if (puntos >= 30) {
+            return "🔥 Avanzado";
+        }
+
+        if (puntos >= 20) {
+            return "⭐ Experto Junior";
+        }
+
+        if (puntos >= 10) {
+            return "🧠 Entrenado";
+        }
+
+        if (puntos >= 5) {
+            return "📚 Aprendiz";
+        }
+
+        return "🌱 Principiante";
+    }
+
+
+    /*
+        ================================
+        ACTUALIZAR DATOS
+        ================================
+    */
+
+    function actualizarDatos() {
+
+        document.getElementById("mostrarTrofeos").textContent =
+            trofeos;
+
+        document.getElementById("mostrarPuntos").textContent =
+            puntos;
+
+        document.getElementById("mostrarRango").textContent =
+            obtenerRango();
+    }
+
+
+    /*
+        ================================
+        GUARDAR PROGRESO
+        ================================
+    */
+
+    function guardarDatos() {
+
+        localStorage.setItem(
+            "mateLabsTrofeos",
+            trofeos
+        );
+
+        localStorage.setItem(
+            "mateLabsPuntos",
+            puntos
+        );
+    }
+
+
+    /*
+        ================================
+        MOSTRAR TROFEOS
+        ================================
+    */
+
+    function mostrarTrofeos() {
+
+        ocultarTodo();
+
+        document
+            .getElementById("pantallaTrofeos")
+            .classList.remove("oculto");
+
+
+        document.getElementById("progresoTrofeos").textContent =
+            trofeos + " / 50";
+
+
+        let lista =
+            document.getElementById("listaTrofeos");
+
+        lista.innerHTML = "";
+
+
+        for (let i = 1; i <= 50; i++) {
+
+            let div =
+                document.createElement("div");
+
+            div.classList.add("trofeo");
+
+
+            if (i <= trofeos) {
+
+                div.classList.add("conseguido");
+
+                div.innerHTML =
+                    '<span class="icono-trofeo">🏆</span>' +
+                    "Trofeo " + i;
+
+            } else {
+
+                div.classList.add("trofeo-bloqueado");
+
+                div.innerHTML =
+                    '<span class="icono-trofeo">🔒</span>' +
+                    "Trofeo " + i;
+            }
+
+
+            lista.appendChild(div);
+        }
+    }
+
+
+    /*
+        ================================
+        VOLVER AL MENU
+        ================================
+    */
+
+    function volverMenu() {
+
+        ocultarTodo();
+
+        document.getElementById("menu").classList.remove("oculto");
+
+        actualizarDatos();
+    }
+
+
+    /*
+        ================================
+        OCULTAR PANTALLAS
+        ================================
+    */
+
+    function ocultarTodo() {
+
+        let pantallas = [
+            "inicio",
+            "menu",
+            "niveles",
+            "juego",
+            "final",
+            "pantallaTrofeos"
+        ];
+
+
+        for (let pantalla of pantallas) {
+
+            document
+                .getElementById(pantalla)
+                .classList.add("oculto");
+        }
+    }
+
+
+    /*
+        ================================
+        NÚMEROS ALEATORIOS
+        ================================
+    */
+
+    function numeroAleatorio(min, max) {
+
+        return Math.floor(
+            Math.random() * (max - min + 1)
+        ) + min;
+    }
+
+
+    /*
+        ================================
+        ENTER PARA RESPONDER
+        ================================
+    */
+
+    function teclaEnter(event) {
+
+        if (event.key === "Enter") {
+
+            comprobarRespuesta();
+        }
+    }
+
+
+    /*
+        ================================
+        CARGAR DATOS
+        ================================
+    */
+
+    actualizarDatos();
+
+</script>
+
+</body>
+</html>
