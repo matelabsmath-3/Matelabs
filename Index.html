@@ -1,0 +1,2821 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MateLabs</title>
+
+<style>
+
+/* =========================================================
+   MATE LABS
+   Diseño general
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --azul: #087cff;
+    --azul-claro: #35a7ff;
+    --azul-oscuro: #004ca8;
+    --negro: #050505;
+    --negro-2: #0d0d0d;
+    --gris: #171717;
+    --gris-2: #222;
+    --blanco: #ffffff;
+    --gris-texto: #bdbdbd;
+    --verde: #19d66b;
+    --rojo: #ff4141;
+    --amarillo: #ffd43b;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(0, 119, 255, .18), transparent 30%),
+        radial-gradient(circle at 80% 80%, rgba(0, 119, 255, .12), transparent 30%),
+        linear-gradient(135deg, #020202, #080b10, #020202);
+    color: var(--blanco);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Fondo decorativo */
+
+body::before {
+    content: "";
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: rgba(0, 119, 255, .05);
+    top: -180px;
+    right: -180px;
+    filter: blur(5px);
+    pointer-events: none;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    width: 450px;
+    height: 450px;
+    border-radius: 50%;
+    background: rgba(0, 119, 255, .04);
+    bottom: -200px;
+    left: -200px;
+    pointer-events: none;
+}
+
+/* =========================================================
+   PANTALLAS
+========================================================= */
+
+.screen {
+    display: none;
+    min-height: 100vh;
+    width: 100%;
+    padding: 25px;
+    position: relative;
+    z-index: 1;
+}
+
+.screen.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* =========================================================
+   LOGO
+   Solo se usa en bloqueo e inicio
+========================================================= */
+
+.logo-area {
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 30px;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    border-radius: 28px;
+    background: linear-gradient(145deg, #0a8cff, #004db5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: -3px;
+    box-shadow:
+        0 0 25px rgba(0, 119, 255, .45),
+        inset 0 0 20px rgba(255,255,255,.08);
+    transform: rotate(-3deg);
+}
+
+.logo-text {
+    margin-top: 15px;
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.logo-text span {
+    color: var(--azul);
+}
+
+.subtitle {
+    color: var(--gris-texto);
+    margin-top: 8px;
+}
+
+/* =========================================================
+   TARJETAS
+========================================================= */
+
+.card {
+    width: min(650px, 100%);
+    background: rgba(13,13,13,.94);
+    border: 1px solid #252525;
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.5),
+        0 0 30px rgba(0, 119, 255, .04);
+    backdrop-filter: blur(10px);
+}
+
+.center-card {
+    margin: auto;
+}
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+.login-title {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.login-description {
+    text-align: center;
+    color: var(--gris-texto);
+    margin-bottom: 25px;
+}
+
+input {
+    width: 100%;
+    border: 2px solid #292929;
+    background: #090909;
+    color: white;
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 18px;
+    outline: none;
+    transition: .2s;
+}
+
+input:focus {
+    border-color: var(--azul);
+    box-shadow: 0 0 15px rgba(0,119,255,.18);
+}
+
+.password-box {
+    position: relative;
+}
+
+.password-box input {
+    padding-right: 55px;
+}
+
+.show-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+/* =========================================================
+   BOTONES
+========================================================= */
+
+button {
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-weight: 800;
+    border-radius: 14px;
+    padding: 15px 20px;
+    font-size: 16px;
+    transition: transform .15s, box-shadow .15s, background .15s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: scale(.97);
+}
+
+.primary {
+    width: 100%;
+    margin-top: 18px;
+    background: linear-gradient(135deg, var(--azul), #0052c9);
+    box-shadow: 0 8px 25px rgba(0,119,255,.25);
+}
+
+.secondary {
+    background: #1b1b1b;
+    border: 1px solid #333;
+}
+
+.danger {
+    background: #7b1616;
+}
+
+.green {
+    background: #087d43;
+}
+
+.error-message {
+    color: #ff5b5b;
+    text-align: center;
+    min-height: 25px;
+    margin-top: 12px;
+}
+
+/* =========================================================
+   MENÚ
+========================================================= */
+
+.menu-header {
+    width: min(1000px, 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.menu-title {
+    font-size: 32px;
+}
+
+.menu-subtitle {
+    color: var(--gris-texto);
+    margin-top: 5px;
+}
+
+.rank-badge {
+    background: #111;
+    border: 1px solid #333;
+    padding: 12px 16px;
+    border-radius: 15px;
+    color: #ddd;
+}
+
+.stats-row {
+    width: min(1000px, 100%);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.stat {
+    background: #101010;
+    border: 1px solid #272727;
+    border-radius: 18px;
+    padding: 18px;
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--azul-claro);
+}
+
+.stat-label {
+    color: #aaa;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.menu-grid {
+    width: min(1000px, 100%);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.menu-button {
+    min-height: 80px;
+    background: linear-gradient(145deg, #141414, #0d0d0d);
+    border: 1px solid #292929;
+    text-align: left;
+    padding: 20px;
+}
+
+.menu-button:hover {
+    border-color: var(--azul);
+    box-shadow: 0 0 20px rgba(0,119,255,.1);
+}
+
+.menu-button strong {
+    display: block;
+    font-size: 18px;
+}
+
+.menu-button small {
+    display: block;
+    color: #999;
+    margin-top: 6px;
+}
+
+/* =========================================================
+   DIFICULTADES
+========================================================= */
+
+.level-grid {
+    width: min(900px, 100%);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.level-card {
+    background: #101010;
+    border: 1px solid #292929;
+    border-radius: 22px;
+    padding: 25px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.level-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--azul);
+}
+
+.level-card.locked {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+.level-icon {
+    font-size: 38px;
+}
+
+.level-name {
+    font-size: 21px;
+    font-weight: 900;
+    margin-top: 10px;
+}
+
+.level-info {
+    color: #999;
+    margin-top: 8px;
+    line-height: 1.5;
+}
+
+/* =========================================================
+   PANTALLA DE EJERCICIOS
+========================================================= */
+
+.exercise-screen {
+    justify-content: flex-start !important;
+    padding-top: 25px;
+}
+
+/*
+   Acá NO ponemos logo.
+   La pantalla queda enfocada en el ejercicio.
+*/
+
+.exercise-top {
+    width: min(850px, 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.exercise-number {
+    font-weight: 800;
+    color: #ddd;
+}
+
+.exercise-score {
+    color: var(--azul-claro);
+    font-weight: 800;
+}
+
+/* Temporizador */
+
+.timer-container {
+    width: min(850px, 100%);
+    background: #161616;
+    border: 1px solid #292929;
+    border-radius: 18px;
+    padding: 12px;
+    margin-bottom: 22px;
+}
+
+.timer-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 9px;
+    font-weight: 800;
+}
+
+.timer-number {
+    color: var(--azul-claro);
+    font-size: 20px;
+}
+
+.timer-track {
+    width: 100%;
+    height: 14px;
+    background: #292929;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.timer-bar {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #13d76a, #ffe033, #ff3d3d);
+    border-radius: inherit;
+    transition: width 1s linear;
+}
+
+/* Ejercicio */
+
+.exercise-card {
+    width: min(850px, 100%);
+    background:
+        radial-gradient(circle at top, rgba(0,119,255,.09), transparent 45%),
+        #0c0c0c;
+    border: 1px solid #292929;
+    border-radius: 28px;
+    padding: 35px;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(0,0,0,.5);
+}
+
+.exercise-label {
+    color: #8f8f8f;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.exercise-question {
+    font-size: clamp(42px, 8vw, 80px);
+    font-weight: 900;
+    margin: 28px 0;
+    letter-spacing: 1px;
+    word-break: break-word;
+}
+
+.answer-input {
+    max-width: 450px;
+    margin: auto;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.answer-button {
+    max-width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.feedback {
+    min-height: 40px;
+    margin-top: 18px;
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.correct {
+    color: var(--verde);
+}
+
+.wrong {
+    color: var(--rojo);
+}
+
+.timeout {
+    color: var(--amarillo);
+}
+
+.progress-line {
+    width: min(850px, 100%);
+    margin-top: 18px;
+    color: #888;
+    text-align: center;
+}
+
+/* =========================================================
+   RESULTADOS
+========================================================= */
+
+.result-card {
+    text-align: center;
+}
+
+.result-percent {
+    font-size: 70px;
+    font-weight: 900;
+    color: var(--azul-claro);
+    margin: 20px 0;
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 12px;
+    margin: 25px 0;
+}
+
+.result-box {
+    background: #151515;
+    border: 1px solid #292929;
+    padding: 18px;
+    border-radius: 17px;
+}
+
+.result-box strong {
+    font-size: 25px;
+    display: block;
+}
+
+.result-box span {
+    color: #999;
+    font-size: 13px;
+}
+
+/* =========================================================
+   TROFEOS
+========================================================= */
+
+.trophy-grid {
+    width: min(1000px, 100%);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.trophy {
+    background: #111;
+    border: 1px solid #292929;
+    border-radius: 18px;
+    padding: 18px 10px;
+    text-align: center;
+}
+
+.trophy.locked {
+    filter: grayscale(1);
+    opacity: .4;
+}
+
+.trophy-icon {
+    font-size: 32px;
+}
+
+.trophy-number {
+    font-size: 12px;
+    color: #888;
+    margin-top: 7px;
+}
+
+/* =========================================================
+   RANGOS
+========================================================= */
+
+.rank-list {
+    width: min(850px, 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.rank-item {
+    background: #111;
+    border: 1px solid #292929;
+    padding: 18px;
+    border-radius: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.rank-item.locked {
+    opacity: .4;
+}
+
+.rank-info strong {
+    font-size: 18px;
+}
+
+.rank-info small {
+    display: block;
+    color: #999;
+    margin-top: 5px;
+}
+
+/* =========================================================
+   CONFIGURACIÓN
+========================================================= */
+
+.settings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.setting {
+    background: #111;
+    border: 1px solid #292929;
+    border-radius: 16px;
+    padding: 18px;
+}
+
+.setting strong {
+    display: block;
+}
+
+.setting small {
+    color: #999;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+    margin-top: auto;
+    padding: 25px 0 5px;
+    color: #666;
+    text-align: center;
+    font-size: 13px;
+}
+
+/* =========================================================
+   ANIMACIONES
+========================================================= */
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulso {
+    0%,100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.04);
+    }
+}
+
+.active .card,
+.active .exercise-card,
+.active .menu-button,
+.active .level-card {
+    animation: aparecer .35s ease;
+}
+
+.timer-warning {
+    animation: pulso .8s infinite;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .screen {
+        padding: 15px;
+    }
+
+    .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .menu-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .level-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .trophy-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .exercise-card {
+        padding: 25px 16px;
+    }
+
+    .exercise-question {
+        margin: 22px 0;
+    }
+
+    .result-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .rank-badge {
+        width: 100%;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .logo {
+        width: 85px;
+        height: 85px;
+        font-size: 29px;
+    }
+
+    .logo-text {
+        font-size: 28px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .exercise-card {
+        border-radius: 22px;
+    }
+
+    .exercise-question {
+        font-size: 45px;
+    }
+
+    .answer-input {
+        font-size: 25px;
+    }
+
+    .trophy-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .rank-item {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ======================================================
+     PANTALLA DE BLOQUEO
+====================================================== -->
+
+<section id="loginScreen" class="screen active">
+
+    <div class="card center-card">
+
+        <div class="logo-area">
+
+            <div class="logo">
+                ML
+            </div>
+
+            <div class="logo-text">
+                Mate<span>Labs</span>
+            </div>
+
+            <div class="subtitle">
+                Entrená tu mente. Superá tus límites.
+            </div>
+
+        </div>
+
+        <h1 class="login-title">
+            🔐 Zona de acceso
+        </h1>
+
+        <p class="login-description">
+            Ingresá la contraseña para comenzar.
+        </p>
+
+        <div class="password-box">
+
+            <input
+                id="passwordInput"
+                type="password"
+                placeholder="Contraseña"
+                autocomplete="off"
+                onkeydown="if(event.key==='Enter') ingresar()"
+            >
+
+            <button
+                class="show-password"
+                onclick="mostrarPassword()"
+                type="button"
+            >
+                👁️
+            </button>
+
+        </div>
+
+        <button
+            class="primary"
+            onclick="ingresar()"
+        >
+            🚀 INICIAR
+        </button>
+
+        <div id="loginError" class="error-message"></div>
+
+    </div>
+
+    <div class="footer">
+        Felipe Catania — 7°B
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     MENÚ PRINCIPAL
+====================================================== -->
+
+<section id="menuScreen" class="screen">
+
+    <div class="logo-area">
+
+        <div class="logo">
+            ML
+        </div>
+
+        <div class="logo-text">
+            Mate<span>Labs</span>
+        </div>
+
+        <div class="subtitle">
+            Panel principal
+        </div>
+
+    </div>
+
+    <div class="menu-header">
+
+        <div>
+            <div class="menu-title">
+                ¡Bienvenido! 👋
+            </div>
+
+            <div class="menu-subtitle">
+                Seguí mejorando tus habilidades matemáticas.
+            </div>
+        </div>
+
+        <div id="equippedRank" class="rank-badge">
+            🎖️ Sin rango equipado
+        </div>
+
+    </div>
+
+    <div class="stats-row">
+
+        <div class="stat">
+            <div id="menuTrophies" class="stat-number">0</div>
+            <div class="stat-label">🏆 Trofeos</div>
+        </div>
+
+        <div class="stat">
+            <div id="menuPoints" class="stat-number">0</div>
+            <div class="stat-label">⭐ Puntos</div>
+        </div>
+
+        <div class="stat">
+            <div id="menuBestStreak" class="stat-number">0</div>
+            <div class="stat-label">🔥 Mejor racha</div>
+        </div>
+
+        <div class="stat">
+            <div id="menuGames" class="stat-number">0</div>
+            <div class="stat-label">🎮 Partidas</div>
+        </div>
+
+    </div>
+
+    <div class="menu-grid">
+
+        <button class="menu-button" onclick="mostrarNiveles()">
+            🧮
+            <strong>JUGAR</strong>
+            <small>Elegí una dificultad y empezá.</small>
+        </button>
+
+        <button class="menu-button" onclick="mostrarTrofeos()">
+            🏆
+            <strong>TROFEOS</strong>
+            <small>Revisá tus trofeos y progreso.</small>
+        </button>
+
+        <button class="menu-button" onclick="mostrarRangos()">
+            🎖️
+            <strong>GESTIONAR RANGOS</strong>
+            <small>Equipá o desequipá tus rangos.</small>
+        </button>
+
+        <button class="menu-button" onclick="mostrarEstadisticas()">
+            📊
+            <strong>ESTADÍSTICAS</strong>
+            <small>Mir á tu rendimiento.</small>
+        </button>
+
+        <button class="menu-button" onclick="mostrarConfiguracion()">
+            ⚙️
+            <strong>CONFIGURACIÓN</strong>
+            <small>Opciones de MateLabs.</small>
+        </button>
+
+        <button class="menu-button" onclick="cerrarSesion()">
+            🔒
+            <strong>CERRAR SESIÓN</strong>
+            <small>Volver a la pantalla de bloqueo.</small>
+        </button>
+
+    </div>
+
+    <div class="footer">
+        Felipe Catania — 7°B
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     DIFICULTAD
+====================================================== -->
+
+<section id="levelsScreen" class="screen">
+
+    <div class="card">
+
+        <h1>🧠 Elegí tu nivel</h1>
+
+        <p style="color:#999;margin-top:8px;">
+            Cada trofeo aumenta la cantidad de ejercicios.
+        </p>
+
+        <div class="level-grid">
+
+            <div id="basicLevel" class="level-card"
+                 onclick="iniciarJuego('basico')">
+
+                <div class="level-icon">🟢</div>
+
+                <div class="level-name">
+                    Básico
+                </div>
+
+                <div class="level-info">
+                    Sumas, restas, multiplicaciones
+                    y divisiones simples.
+                </div>
+
+            </div>
+
+            <div id="mediumLevel" class="level-card"
+                 onclick="iniciarJuego('intermedio')">
+
+                <div class="level-icon">🟡</div>
+
+                <div class="level-name">
+                    Intermedio
+                </div>
+
+                <div class="level-info">
+                    Operaciones combinadas,
+                    multiplicaciones y divisiones.
+                </div>
+
+            </div>
+
+            <div id="advancedLevel" class="level-card"
+                 onclick="iniciarJuego('avanzado')">
+
+                <div class="level-icon">🔴</div>
+
+                <div class="level-name">
+                    Avanzado
+                </div>
+
+                <div class="level-info">
+                    Paréntesis, potencias
+                    y operaciones más difíciles.
+                </div>
+
+            </div>
+
+        </div>
+
+        <button
+            class="secondary"
+            style="width:100%;margin-top:20px;"
+            onclick="volverMenu()"
+        >
+            ← VOLVER
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     PANTALLA DE EJERCICIOS
+====================================================== -->
+
+<section id="gameScreen" class="screen exercise-screen">
+
+    <div class="exercise-top">
+
+        <div id="exerciseNumber" class="exercise-number">
+            Ejercicio 1 de 5
+        </div>
+
+        <div id="exerciseScore" class="exercise-score">
+            ⭐ 0 puntos
+        </div>
+
+    </div>
+
+    <!-- TEMPORIZADOR -->
+
+    <div class="timer-container">
+
+        <div class="timer-info">
+
+            <span>
+                ⏱️ Tiempo
+            </span>
+
+            <span id="timerNumber" class="timer-number">
+                30s
+            </span>
+
+        </div>
+
+        <div class="timer-track">
+
+            <div
+                id="timerBar"
+                class="timer-bar"
+            ></div>
+
+        </div>
+
+    </div>
+
+    <!-- EJERCICIO -->
+
+    <div class="exercise-card">
+
+        <div class="exercise-label">
+            Resolvé la operación
+        </div>
+
+        <div
+            id="question"
+            class="exercise-question"
+        >
+            5 + 5
+        </div>
+
+        <input
+            id="answerInput"
+            class="answer-input"
+            type="number"
+            inputmode="numeric"
+            placeholder="Tu respuesta"
+            autocomplete="off"
+            onkeydown="if(event.key==='Enter') responder()"
+        >
+
+        <button
+            id="answerButton"
+            class="primary answer-button"
+            onclick="responder()"
+        >
+            ✓ RESPONDER
+        </button>
+
+        <div id="feedback" class="feedback"></div>
+
+    </div>
+
+    <div
+        id="progressLine"
+        class="progress-line"
+    >
+        Preparado...
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     RESULTADOS
+====================================================== -->
+
+<section id="resultScreen" class="screen">
+
+    <div class="card result-card center-card">
+
+        <h1 id="resultTitle">
+            🎉 Partida terminada
+        </h1>
+
+        <div id="resultPercent" class="result-percent">
+            0%
+        </div>
+
+        <p id="resultMessage">
+            Buen trabajo.
+        </p>
+
+        <div class="result-grid">
+
+            <div class="result-box">
+                <strong id="resultCorrect">0</strong>
+                <span>Correctas</span>
+            </div>
+
+            <div class="result-box">
+                <strong id="resultWrong">0</strong>
+                <span>Incorrectas</span>
+            </div>
+
+            <div class="result-box">
+                <strong id="resultStreak">0</strong>
+                <span>Racha</span>
+            </div>
+
+        </div>
+
+        <div id="trophyMessage"></div>
+
+        <button
+            class="primary"
+            onclick="volverMenu()"
+        >
+            🏠 VOLVER AL MENÚ
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     TROFEOS
+====================================================== -->
+
+<section id="trophyScreen" class="screen">
+
+    <div class="card" style="width:min(1100px,100%);">
+
+        <h1>🏆 Trofeos MateLabs</h1>
+
+        <p style="color:#999;margin-top:8px;">
+            Conseguí el 100% en una partida para obtener un trofeo.
+        </p>
+
+        <div id="trophyGrid" class="trophy-grid"></div>
+
+        <button
+            class="secondary"
+            style="width:100%;margin-top:25px;"
+            onclick="volverMenu()"
+        >
+            ← VOLVER
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     RANGOS
+====================================================== -->
+
+<section id="rankScreen" class="screen">
+
+    <div class="card">
+
+        <h1>🎖️ Gestionar rangos</h1>
+
+        <p style="color:#999;margin-top:8px;">
+            Elegí el rango que querés mostrar.
+        </p>
+
+        <div id="rankList" class="rank-list"></div>
+
+        <button
+            class="secondary"
+            style="width:100%;margin-top:20px;"
+            onclick="volverMenu()"
+        >
+            ← VOLVER
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     ESTADÍSTICAS
+====================================================== -->
+
+<section id="statsScreen" class="screen">
+
+    <div class="card">
+
+        <h1>📊 Estadísticas</h1>
+
+        <div class="settings-list" style="margin-top:20px;">
+
+            <div class="setting">
+                <strong>🏆 Trofeos</strong>
+                <small id="statTrophies">0</small>
+            </div>
+
+            <div class="setting">
+                <strong>⭐ Puntos</strong>
+                <small id="statPoints">0</small>
+            </div>
+
+            <div class="setting">
+                <strong>🎮 Partidas</strong>
+                <small id="statGames">0</small>
+            </div>
+
+            <div class="setting">
+                <strong>🔥 Mejor racha</strong>
+                <small id="statBestStreak">0</small>
+            </div>
+
+            <div class="setting">
+                <strong>🧮 Ejercicios resueltos</strong>
+                <small id="statExercises">0</small>
+            </div>
+
+            <div class="setting">
+                <strong>✅ Respuestas correctas</strong>
+                <small id="statCorrect">0</small>
+            </div>
+
+            <div class="setting">
+                <strong>❌ Respuestas incorrectas</strong>
+                <small id="statWrong">0</small>
+            </div>
+
+        </div>
+
+        <button
+            class="secondary"
+            style="width:100%;margin-top:20px;"
+            onclick="volverMenu()"
+        >
+            ← VOLVER
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     CONFIGURACIÓN
+====================================================== -->
+
+<section id="settingsScreen" class="screen">
+
+    <div class="card">
+
+        <h1>⚙️ Configuración</h1>
+
+        <div class="settings-list" style="margin-top:20px;">
+
+            <div class="setting">
+                <strong>📱 Compatibilidad</strong>
+                <small>
+                    MateLabs está preparado para teléfonos,
+                    tablets y computadoras.
+                </small>
+            </div>
+
+            <div class="setting">
+                <strong>⏱️ Tiempo por ejercicio</strong>
+                <small>
+                    30 segundos.
+                </small>
+            </div>
+
+            <div class="setting">
+                <strong>🏆 Máximo de trofeos</strong>
+                <small>
+                    100 trofeos.
+                </small>
+            </div>
+
+            <div class="setting">
+                <strong>🔢 Ejercicios iniciales</strong>
+                <small>
+                    5 ejercicios + 1 por cada trofeo.
+                </small>
+            </div>
+
+        </div>
+
+        <button
+            class="danger"
+            style="width:100%;margin-top:20px;"
+            onclick="reiniciarProgreso()"
+        >
+            🗑️ REINICIAR PROGRESO
+        </button>
+
+        <button
+            class="secondary"
+            style="width:100%;margin-top:10px;"
+            onclick="volverMenu()"
+        >
+            ← VOLVER
+        </button>
+
+    </div>
+
+</section>
+
+
+<script>
+
+/* =========================================================
+   CONFIGURACIÓN
+========================================================= */
+
+const CONTRASENA = "Matelab123";
+
+const TIEMPO_MAXIMO = 30;
+
+const MAX_TROFEOS = 100;
+
+const BASE_EJERCICIOS = 5;
+
+
+/* =========================================================
+   RANGOS
+========================================================= */
+
+const RANGOS = [
+    {
+        nombre: "🌱 Principiante",
+        minimo: 0
+    },
+    {
+        nombre: "📚 Aprendiz",
+        minimo: 5
+    },
+    {
+        nombre: "🧠 Entrenado",
+        minimo: 10
+    },
+    {
+        nombre: "⭐ Experto Junior",
+        minimo: 20
+    },
+    {
+        nombre: "🔥 Avanzado",
+        minimo: 30
+    },
+    {
+        nombre: "💎 Experto",
+        minimo: 40
+    },
+    {
+        nombre: "👑 Maestro MateLabs",
+        minimo: 50
+    },
+    {
+        nombre: "🏆 Gran Maestro MateLabs",
+        minimo: 75
+    },
+    {
+        nombre: "👑⚡ Leyenda MateLabs",
+        minimo: 100
+    }
+];
+
+
+/* =========================================================
+   DATOS DEL JUGADOR
+========================================================= */
+
+let datos = JSON.parse(
+    localStorage.getItem("matelabsDatos")
+) || {
+
+    trofeos: 0,
+
+    puntos: 0,
+
+    partidas: 0,
+
+    mejorRacha: 0,
+
+    ejercicios: 0,
+
+    correctas: 0,
+
+    incorrectas: 0,
+
+    rangoEquipado: null
+
+};
+
+
+/* =========================================================
+   DATOS DE PARTIDA
+========================================================= */
+
+let dificultadActual = "";
+
+let ejerciciosTotales = 0;
+
+let ejercicioActual = 0;
+
+let correctasPartida = 0;
+
+let incorrectasPartida = 0;
+
+let rachaActual = 0;
+
+let mejorRachaPartida = 0;
+
+let ejerciciosUsados = new Set();
+
+let ejercicioActualData = null;
+
+let tiempoRestante = TIEMPO_MAXIMO;
+
+let timer = null;
+
+let respondiendo = false;
+
+
+/* =========================================================
+   GUARDAR DATOS
+========================================================= */
+
+function guardarDatos() {
+
+    localStorage.setItem(
+        "matelabsDatos",
+        JSON.stringify(datos)
+    );
+
+}
+
+
+/* =========================================================
+   CAMBIAR PANTALLA
+========================================================= */
+
+function mostrarPantalla(id) {
+
+    document.querySelectorAll(".screen")
+        .forEach(screen => {
+            screen.classList.remove("active");
+        });
+
+    document.getElementById(id)
+        .classList.add("active");
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+function ingresar() {
+
+    const input =
+        document.getElementById("passwordInput");
+
+    const error =
+        document.getElementById("loginError");
+
+    if (input.value === CONTRASENA) {
+
+        error.textContent = "";
+
+        input.value = "";
+
+        actualizarMenu();
+
+        mostrarPantalla("menuScreen");
+
+    } else {
+
+        error.textContent =
+            "❌ Contraseña incorrecta.";
+
+        input.value = "";
+
+        input.focus();
+
+    }
+
+}
+
+
+function mostrarPassword() {
+
+    const input =
+        document.getElementById("passwordInput");
+
+    if (input.type === "password") {
+
+        input.type = "text";
+
+    } else {
+
+        input.type = "password";
+
+    }
+
+}
+
+
+/* =========================================================
+   SESIÓN
+========================================================= */
+
+function cerrarSesion() {
+
+    clearInterval(timer);
+
+    mostrarPantalla("loginScreen");
+
+}
+
+
+/* =========================================================
+   RANGO ACTUAL
+========================================================= */
+
+function obtenerRangoActual() {
+
+    let rango = RANGOS[0];
+
+    for (const r of RANGOS) {
+
+        if (datos.trofeos >= r.minimo) {
+
+            rango = r;
+
+        }
+
+    }
+
+    return rango;
+
+}
+
+
+/* =========================================================
+   ACTUALIZAR MENÚ
+========================================================= */
+
+function actualizarMenu() {
+
+    document.getElementById("menuTrophies")
+        .textContent = datos.trofeos;
+
+    document.getElementById("menuPoints")
+        .textContent = datos.puntos;
+
+    document.getElementById("menuBestStreak")
+        .textContent = datos.mejorRacha;
+
+    document.getElementById("menuGames")
+        .textContent = datos.partidas;
+
+    const rango =
+        datos.rangoEquipado === null
+        ? "🎖️ Sin rango equipado"
+        : "🎖️ " + RANGOS[datos.rangoEquipado].nombre;
+
+    document.getElementById("equippedRank")
+        .textContent = rango;
+
+}
+
+
+/* =========================================================
+   NIVELES
+========================================================= */
+
+function mostrarNiveles() {
+
+    actualizarBloqueos();
+
+    mostrarPantalla("levelsScreen");
+
+}
+
+
+function actualizarBloqueos() {
+
+    const basico =
+        document.getElementById("basicLevel");
+
+    const intermedio =
+        document.getElementById("mediumLevel");
+
+    if (datos.trofeos >= 20) {
+
+        basico.classList.add("locked");
+
+        basico.onclick = () => {
+            alert("🔒 Básico está bloqueado desde los 20 trofeos.");
+        };
+
+    } else {
+
+        basico.classList.remove("locked");
+
+        basico.onclick = () => iniciarJuego("basico");
+
+    }
+
+
+    if (datos.trofeos >= 50) {
+
+        intermedio.classList.add("locked");
+
+        intermedio.onclick = () => {
+            alert("🔒 Intermedio está bloqueado desde los 50 trofeos.");
+        };
+
+    } else {
+
+        intermedio.classList.remove("locked");
+
+        intermedio.onclick = () => iniciarJuego("intermedio");
+
+    }
+
+}
+
+
+/* =========================================================
+   INICIAR PARTIDA
+========================================================= */
+
+function iniciarJuego(nivel) {
+
+    if (
+        nivel === "basico" &&
+        datos.trofeos >= 20
+    ) {
+
+        alert("🔒 Este nivel está bloqueado.");
+
+        return;
+
+    }
+
+    if (
+        nivel === "intermedio" &&
+        datos.trofeos >= 50
+    ) {
+
+        alert("🔒 Este nivel está bloqueado.");
+
+        return;
+
+    }
+
+    dificultadActual = nivel;
+
+    ejerciciosTotales =
+        Math.min(
+            BASE_EJERCICIOS + datos.trofeos,
+            BASE_EJERCICIOS + MAX_TROFEOS
+        );
+
+    ejercicioActual = 0;
+
+    correctasPartida = 0;
+
+    incorrectasPartida = 0;
+
+    rachaActual = 0;
+
+    mejorRachaPartida = 0;
+
+    ejerciciosUsados = new Set();
+
+    datos.partidas++;
+
+    guardarDatos();
+
+    mostrarPantalla("gameScreen");
+
+    siguienteEjercicio();
+
+}
+
+
+/* =========================================================
+   GENERAR NÚMERO ALEATORIO
+========================================================= */
+
+function numero(min, max) {
+
+    return Math.floor(
+        Math.random() * (max - min + 1)
+    ) + min;
+
+}
+
+
+/* =========================================================
+   CREAR EJERCICIO BÁSICO
+========================================================= */
+
+function crearBasico() {
+
+    const tipo = numero(1,4);
+
+    let a;
+    let b;
+    let respuesta;
+    let texto;
+
+    if (tipo === 1) {
+
+        a = numero(1,99);
+        b = numero(1,99);
+
+        respuesta = a + b;
+
+        texto = `${a} + ${b}`;
+
+    }
+
+    else if (tipo === 2) {
+
+        a = numero(20,120);
+        b = numero(1,a);
+
+        respuesta = a - b;
+
+        texto = `${a} − ${b}`;
+
+    }
+
+    else if (tipo === 3) {
+
+        a = numero(2,15);
+        b = numero(2,12);
+
+        respuesta = a * b;
+
+        texto = `${a} × ${b}`;
+
+    }
+
+    else {
+
+        b = numero(2,12);
+        respuesta = numero(2,15);
+
+        a = b * respuesta;
+
+        texto = `${a} ÷ ${b}`;
+
+    }
+
+    return {
+        texto,
+        respuesta
+    };
+
+}
+
+
+/* =========================================================
+   CREAR EJERCICIO INTERMEDIO
+========================================================= */
+
+function crearIntermedio() {
+
+    const tipo = numero(1,4);
+
+    let a = numero(2,20);
+    let b = numero(2,15);
+    let c = numero(1,20);
+
+    let respuesta;
+    let texto;
+
+    if (tipo === 1) {
+
+        respuesta = a * b + c;
+
+        texto = `${a} × ${b} + ${c}`;
+
+    }
+
+    else if (tipo === 2) {
+
+        respuesta = a + b * c;
+
+        texto = `${a} + ${b} × ${c}`;
+
+    }
+
+    else if (tipo === 3) {
+
+        respuesta = (a + b) * c;
+
+        texto = `(${a} + ${b}) × ${c}`;
+
+    }
+
+    else {
+
+        const divisor = b;
+
+        const resultado = a;
+
+        const dividendo = divisor * resultado;
+
+        respuesta = resultado + c;
+
+        texto = `${dividendo} ÷ ${divisor} + ${c}`;
+
+    }
+
+    return {
+        texto,
+        respuesta
+    };
+
+}
+
+
+/* =========================================================
+   CREAR EJERCICIO AVANZADO
+========================================================= */
+
+function crearAvanzado() {
+
+    const tipo = numero(1,5);
+
+    let a = numero(2,15);
+    let b = numero(2,12);
+    let c = numero(1,10);
+
+    let respuesta;
+    let texto;
+
+    if (tipo === 1) {
+
+        respuesta =
+            Math.pow(a,2) + b;
+
+        texto =
+            `${a}² + ${b}`;
+
+    }
+
+    else if (tipo === 2) {
+
+        respuesta =
+            (a + b) * c;
+
+        texto =
+            `(${a} + ${b}) × ${c}`;
+
+    }
+
+    else if (tipo === 3) {
+
+        respuesta =
+            a * a - b * c;
+
+        texto =
+            `${a}² − ${b} × ${c}`;
+
+    }
+
+    else if (tipo === 4) {
+
+        respuesta =
+            (a * b) - (c + b);
+
+        texto =
+            `(${a} × ${b}) − (${c} + ${b})`;
+
+    }
+
+    else {
+
+        respuesta =
+            (a + b) * (c + 2);
+
+        texto =
+            `(${a} + ${b}) × (${c} + 2)`;
+
+    }
+
+    return {
+        texto,
+        respuesta
+    };
+
+}
+
+
+/* =========================================================
+   GENERADOR GENERAL
+========================================================= */
+
+function generarEjercicio() {
+
+    if (dificultadActual === "basico") {
+
+        return crearBasico();
+
+    }
+
+    if (dificultadActual === "intermedio") {
+
+        return crearIntermedio();
+
+    }
+
+    return crearAvanzado();
+
+}
+
+
+/* =========================================================
+   SIGUIENTE EJERCICIO
+========================================================= */
+
+function siguienteEjercicio() {
+
+    clearInterval(timer);
+
+    respondiendo = false;
+
+    document.getElementById("answerInput").disabled = false;
+
+    document.getElementById("answerButton").disabled = false;
+
+    document.getElementById("feedback").textContent = "";
+
+    document.getElementById("feedback").className =
+        "feedback";
+
+    if (ejercicioActual >= ejerciciosTotales) {
+
+        terminarPartida();
+
+        return;
+
+    }
+
+    let intento = 0;
+
+    do {
+
+        ejercicioActualData =
+            generarEjercicio();
+
+        intento++;
+
+        if (intento > 1000) {
+            break;
+        }
+
+    } while (
+        ejerciciosUsados.has(
+            ejercicioActualData.texto
+        )
+    );
+
+    ejerciciosUsados.add(
+        ejercicioActualData.texto
+    );
+
+    ejercicioActual++;
+
+    document.getElementById("exerciseNumber")
+        .textContent =
+        `Ejercicio ${ejercicioActual} de ${ejerciciosTotales}`;
+
+    document.getElementById("exerciseScore")
+        .textContent =
+        `⭐ ${datos.puntos} puntos`;
+
+    document.getElementById("question")
+        .textContent =
+        ejercicioActualData.texto;
+
+    document.getElementById("progressLine")
+        .textContent =
+        `🔥 Racha actual: ${rachaActual}`;
+
+    const input =
+        document.getElementById("answerInput");
+
+    input.value = "";
+
+    input.focus();
+
+    iniciarTemporizador();
+
+}
+
+
+/* =========================================================
+   TEMPORIZADOR
+========================================================= */
+
+function iniciarTemporizador() {
+
+    clearInterval(timer);
+
+    tiempoRestante = TIEMPO_MAXIMO;
+
+    actualizarTemporizador();
+
+    timer = setInterval(() => {
+
+        tiempoRestante--;
+
+        actualizarTemporizador();
+
+        if (tiempoRestante <= 0) {
+
+            clearInterval(timer);
+
+            tiempoAgotado();
+
+        }
+
+    }, 1000);
+
+}
+
+
+/* =========================================================
+   ACTUALIZAR BARRA
+========================================================= */
+
+function actualizarTemporizador() {
+
+    const numero =
+        document.getElementById("timerNumber");
+
+    const barra =
+        document.getElementById("timerBar");
+
+    numero.textContent =
+        tiempoRestante + "s";
+
+    const porcentaje =
+        (tiempoRestante / TIEMPO_MAXIMO) * 100;
+
+    barra.style.width =
+        porcentaje + "%";
+
+    if (tiempoRestante <= 10) {
+
+        numero.classList.add("timer-warning");
+
+    } else {
+
+        numero.classList.remove("timer-warning");
+
+    }
+
+}
+
+
+/* =========================================================
+   RESPONDER
+========================================================= */
+
+function responder() {
+
+    if (respondiendo) {
+        return;
+    }
+
+    respondiendo = true;
+
+    clearInterval(timer);
+
+    const input =
+        document.getElementById("answerInput");
+
+    const boton =
+        document.getElementById("answerButton");
+
+    const feedback =
+        document.getElementById("feedback");
+
+    input.disabled = true;
+
+    boton.disabled = true;
+
+    const respuestaUsuario =
+        Number(input.value);
+
+    if (
+        input.value.trim() !== "" &&
+        respuestaUsuario === ejercicioActualData.respuesta
+    ) {
+
+        correctasPartida++;
+
+        datos.correctas++;
+
+        datos.ejercicios++;
+
+        rachaActual++;
+
+        if (rachaActual > mejorRachaPartida) {
+
+            mejorRachaPartida =
+                rachaActual;
+
+        }
+
+        if (rachaActual > datos.mejorRacha) {
+
+            datos.mejorRacha =
+                rachaActual;
+
+        }
+
+        datos.puntos++;
+
+        feedback.textContent =
+            "✅ ¡CORRECTO!";
+
+        feedback.className =
+            "feedback correct";
+
+        document.getElementById("progressLine")
+            .textContent =
+            `🔥 Racha actual: ${rachaActual}`;
+
+    } else {
+
+        marcarIncorrecto(
+            `❌ Incorrecto. La respuesta era ${ejercicioActualData.respuesta}.`
+        );
+
+    }
+
+    guardarDatos();
+
+    setTimeout(() => {
+
+        siguienteEjercicio();
+
+    }, 900);
+
+}
+
+
+/* =========================================================
+   TIEMPO AGOTADO
+========================================================= */
+
+function tiempoAgotado() {
+
+    if (respondiendo) {
+        return;
+    }
+
+    respondiendo = true;
+
+    const input =
+        document.getElementById("answerInput");
+
+    const boton =
+        document.getElementById("answerButton");
+
+    input.disabled = true;
+
+    boton.disabled = true;
+
+    marcarIncorrecto(
+        `⏰ ¡Se acabó el tiempo! La respuesta era ${ejercicioActualData.respuesta}.`
+    );
+
+    /*
+       El ejercicio cuenta como incorrecto.
+
+       Además se muestra un rendimiento de 80%
+       para ese ejercicio cuando se acaba el tiempo.
+    */
+
+    const feedback =
+        document.getElementById("feedback");
+
+    feedback.innerHTML +=
+        `<br><small>📊 Rendimiento del tiempo: 80%</small>`;
+
+    guardarDatos();
+
+    setTimeout(() => {
+
+        siguienteEjercicio();
+
+    }, 1300);
+
+}
+
+
+/* =========================================================
+   MARCAR INCORRECTO
+========================================================= */
+
+function marcarIncorrecto(mensaje) {
+
+    incorrectasPartida++;
+
+    datos.incorrectas++;
+
+    datos.ejercicios++;
+
+    rachaActual = 0;
+
+    const feedback =
+        document.getElementById("feedback");
+
+    feedback.textContent =
+        mensaje;
+
+    feedback.className =
+        "feedback wrong";
+
+    document.getElementById("progressLine")
+        .textContent =
+        "🔥 Racha actual: 0";
+
+}
+
+
+/* =========================================================
+   TERMINAR PARTIDA
+========================================================= */
+
+function terminarPartida() {
+
+    clearInterval(timer);
+
+    const total =
+        correctasPartida + incorrectasPartida;
+
+    let porcentaje = 0;
+
+    if (total > 0) {
+
+        porcentaje =
+            Math.round(
+                (correctasPartida / total) * 100
+            );
+
+    }
+
+    /*
+       Trofeo únicamente si TODO está correcto.
+    */
+
+    let ganoTrofeo = false;
+
+    if (
+        porcentaje === 100 &&
+        correctasPartida === ejerciciosTotales &&
+        datos.trofeos < MAX_TROFEOS
+    ) {
+
+        datos.trofeos++;
+
+        datos.puntos++;
+
+        ganoTrofeo = true;
+
+    }
+
+    guardarDatos();
+
+    mostrarResultados(
+        porcentaje,
+        ganoTrofeo
+    );
+
+}
+
+
+/* =========================================================
+   RESULTADOS
+========================================================= */
+
+function mostrarResultados(
+    porcentaje,
+    ganoTrofeo
+) {
+
+    document.getElementById("resultPercent")
+        .textContent =
+        porcentaje + "%";
+
+    document.getElementById("resultCorrect")
+        .textContent =
+        correctasPartida;
+
+    document.getElementById("resultWrong")
+        .textContent =
+        incorrectasPartida;
+
+    document.getElementById("resultStreak")
+        .textContent =
+        mejorRachaPartida;
+
+    const titulo =
+        document.getElementById("resultTitle");
+
+    const mensaje =
+        document.getElementById("resultMessage");
+
+    const trophy =
+        document.getElementById("trophyMessage");
+
+    if (ganoTrofeo) {
+
+        titulo.textContent =
+            "🏆 ¡TROFEO CONSEGUIDO!";
+
+        mensaje.textContent =
+            "¡Perfecto! Completaste toda la partida correctamente.";
+
+        trophy.innerHTML = `
+            <div style="
+                margin:20px 0;
+                padding:20px;
+                border-radius:18px;
+                background:#101010;
+                border:1px solid #087cff;
+            ">
+                🏆<br>
+                <strong>Trofeo ${datos.trofeos} / ${MAX_TROFEOS}</strong>
+                <br>
+                <small style="color:#999;">
+                    +1 punto
+                </small>
+            </div>
+        `;
+
+        comprobarNuevoRango();
+
+    }
+
+    else {
+
+        titulo.textContent =
+            "🎯 Partida terminada";
+
+        if (porcentaje >= 80) {
+
+            mensaje.textContent =
+                "¡Muy bien! Seguí practicando para conseguir el trofeo.";
+
+        } else if (porcentaje >= 50) {
+
+            mensaje.textContent =
+                "Vas avanzando. ¡Podés mejorar todavía más!";
+
+        } else {
+
+            mensaje.textContent =
+                "No pasa nada. ¡Volvé a intentarlo!";
+
+        }
+
+        trophy.innerHTML = `
+            <div style="
+                margin:20px 0;
+                color:#999;
+            ">
+                🏆 Para conseguir un trofeo necesitás 100%.
+            </div>
+        `;
+
+    }
+
+    mostrarPantalla("resultScreen");
+
+}
+
+
+/* =========================================================
+   COMPROBAR NUEVO RANGO
+========================================================= */
+
+function comprobarNuevoRango() {
+
+    const rango =
+        obtenerRangoActual();
+
+    if (
+        datos.trofeos === rango.minimo &&
+        rango.minimo !== 0
+    ) {
+
+        setTimeout(() => {
+
+            alert(
+                `🎉 ¡Has desbloqueado un nuevo rango!\n\n${rango.nombre}`
+            );
+
+        }, 300);
+
+    }
+
+}
+
+
+/* =========================================================
+   TROFEOS
+========================================================= */
+
+function mostrarTrofeos() {
+
+    const grid =
+        document.getElementById("trophyGrid");
+
+    grid.innerHTML = "";
+
+    for (
+        let i = 1;
+        i <= MAX_TROFEOS;
+        i++
+    ) {
+
+        const desbloqueado =
+            datos.trofeos >= i;
+
+        const div =
+            document.createElement("div");
+
+        div.className =
+            "trophy" +
+            (desbloqueado ? "" : " locked");
+
+        div.innerHTML = `
+
+            <div class="trophy-icon">
+                ${desbloqueado ? "🏆" : "🔒"}
+            </div>
+
+            <div>
+                ${desbloqueado
+                    ? "Conseguido"
+                    : "Bloqueado"}
+            </div>
+
+            <div class="trophy-number">
+                Trofeo ${i}
+            </div>
+
+        `;
+
+        grid.appendChild(div);
+
+    }
+
+    mostrarPantalla("trophyScreen");
+
+}
+
+
+/* =========================================================
+   RANGOS
+========================================================= */
+
+function mostrarRangos() {
+
+    const lista =
+        document.getElementById("rankList");
+
+    lista.innerHTML = "";
+
+    RANGOS.forEach((rango, index) => {
+
+        const desbloqueado =
+            datos.trofeos >= rango.minimo;
+
+        const equipado =
+            datos.rangoEquipado === index;
+
+        const item =
+            document.createElement("div");
+
+        item.className =
+            "rank-item" +
+            (desbloqueado ? "" : " locked");
+
+        let boton = "";
+
+        if (!desbloqueado) {
+
+            boton = `
+                <button
+                    class="secondary"
+                    disabled
+                >
+                    🔒 ${rango.minimo} trofeos
+                </button>
+            `;
+
+        } else if (equipado) {
+
+            boton = `
+                <button
+                    class="danger"
+                    onclick="desequiparRango()"
+                >
+                    ❌ DESEQUIPAR
+                </button>
+            `;
+
+        } else {
+
+            boton = `
+                <button
+                    class="primary"
+                    style="width:auto;margin:0;"
+                    onclick="equiparRango(${index})"
+                >
+                    EQUIPAR
+                </button>
+            `;
+
+        }
+
+        item.innerHTML = `
+
+            <div class="rank-info">
+
+                <strong>
+                    ${rango.nombre}
+                </strong>
+
+                <small>
+                    Requiere ${rango.minimo} trofeos
+                </small>
+
+            </div>
+
+            ${boton}
+
+        `;
+
+        lista.appendChild(item);
+
+    });
+
+    mostrarPantalla("rankScreen");
+
+}
+
+
+/* =========================================================
+   EQUIPAR RANGO
+========================================================= */
+
+function equiparRango(index) {
+
+    if (
+        datos.trofeos <
+        RANGOS[index].minimo
+    ) {
+
+        return;
+
+    }
+
+    datos.rangoEquipado = index;
+
+    guardarDatos();
+
+    actualizarMenu();
+
+    mostrarRangos();
+
+}
+
+
+/* =========================================================
+   DESEQUIPAR RANGO
+========================================================= */
+
+function desequiparRango() {
+
+    datos.rangoEquipado = null;
+
+    guardarDatos();
+
+    actualizarMenu();
+
+    mostrarRangos();
+
+}
+
+
+/* =========================================================
+   ESTADÍSTICAS
+========================================================= */
+
+function mostrarEstadisticas() {
+
+    document.getElementById("statTrophies")
+        .textContent =
+        datos.trofeos;
+
+    document.getElementById("statPoints")
+        .textContent =
+        datos.puntos;
+
+    document.getElementById("statGames")
+        .textContent =
+        datos.partidas;
+
+    document.getElementById("statBestStreak")
+        .textContent =
+        datos.mejorRacha;
+
+    document.getElementById("statExercises")
+        .textContent =
+        datos.ejercicios;
+
+    document.getElementById("statCorrect")
+        .textContent =
+        datos.correctas;
+
+    document.getElementById("statWrong")
+        .textContent =
+        datos.incorrectas;
+
+    mostrarPantalla("statsScreen");
+
+}
+
+
+/* =========================================================
+   CONFIGURACIÓN
+========================================================= */
+
+function mostrarConfiguracion() {
+
+    mostrarPantalla("settingsScreen");
+
+}
+
+
+/* =========================================================
+   REINICIAR PROGRESO
+========================================================= */
+
+function reiniciarProgreso() {
+
+    const confirmar =
+        confirm(
+            "⚠️ ¿Seguro que querés borrar TODO tu progreso?"
+        );
+
+    if (!confirmar) {
+        return;
+    }
+
+    datos = {
+
+        trofeos: 0,
+
+        puntos: 0,
+
+        partidas: 0,
+
+        mejorRacha: 0,
+
+        ejercicios: 0,
+
+        correctas: 0,
+
+        incorrectas: 0,
+
+        rangoEquipado: null
+
+    };
+
+    guardarDatos();
+
+    actualizarMenu();
+
+    alert(
+        "✅ Progreso reiniciado."
+    );
+
+    volverMenu();
+
+}
+
+
+/* =========================================================
+   VOLVER AL MENÚ
+========================================================= */
+
+function volverMenu() {
+
+    clearInterval(timer);
+
+    actualizarMenu();
+
+    mostrarPantalla("menuScreen");
+
+}
+
+
+/* =========================================================
+   ARRANQUE
+========================================================= */
+
+actualizarMenu();
+
+</script>
+
+</body>
+                                             </html>
