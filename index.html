@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MateLabs</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      color: #222;
+      text-align: center;
+    }
+
+    header {
+      background: white;
+      padding: 30px 15px;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .logo {
+      font-size: 50px;
+    }
+
+    h1 {
+      margin: 5px 0;
+      font-size: 42px;
+    }
+
+    header p {
+      color: #666;
+      font-size: 18px;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .tarjeta {
+      background: white;
+      padding: 30px 20px;
+      margin-bottom: 25px;
+      border-radius: 18px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+    }
+
+    input {
+      padding: 14px;
+      width: 85%;
+      max-width: 350px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 17px;
+      margin: 10px;
+      box-sizing: border-box;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 14px 25px;
+      margin: 8px;
+      font-size: 17px;
+      cursor: pointer;
+    }
+
+    .iniciar {
+      background: #1683ff;
+      color: white;
+      width: 85%;
+      max-width: 350px;
+      font-size: 20px;
+    }
+
+    .iniciar:hover {
+      background: #006ddd;
+    }
+
+    .opcion {
+      background: #222;
+      color: white;
+    }
+
+    .oculto {
+      display: none;
+    }
+
+    .trofeos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+    }
+
+    .trofeo {
+      background: #f5f5f5;
+      padding: 15px 5px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .trofeo:hover {
+      background: #e5e5e5;
+    }
+
+    #pregunta {
+      font-size: 34px;
+      font-weight: bold;
+      margin: 25px;
+    }
+
+    #resultado {
+      font-size: 20px;
+      min-height: 25px;
+    }
+
+    .volver {
+      background: #777;
+      color: white;
+    }
+
+    footer {
+      color: #777;
+      padding: 25px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">🧠</div>
+    <h1>MateLabs</h1>
+    <p>Aprendé matemática. Practicá. Mejorá.</p>
+  </header>
+
+
+  <!-- INICIO -->
+
+  <main id="inicio">
+
+    <section class="tarjeta">
+
+      <h2>¡Bienvenido a MateLabs! 👋</h2>
+
+      <p>Escribí tu nombre para comenzar.</p>
+
+      <input
+        id="nombre"
+        type="text"
+        placeholder="Tu nombre"
+        maxlength="30"
+      >
+
+      <br>
+
+      <button class="iniciar" onclick="iniciar()">
+        🔵 INICIAR
+      </button>
+
+    </section>
+
+  </main>
+
+
+  <!-- MENU -->
+
+  <main id="menu" class="oculto">
+
+    <section class="tarjeta">
+
+      <h2 id="saludo"></h2>
+
+      <h3>¿Qué querés hacer?</h3>
+
+      <button class="iniciar" onclick="practica()">
+        🎮 MODO PRÁCTICA
+      </button>
+
+      <br>
+
+      <button class="opcion" onclick="mostrarTrofeos()">
+        🏆 TROFEOS
+      </button>
+
+      <br>
+
+      <button class="opcion" onclick="zonaSecreta()">
+        🔐 ZONA SECRETA
+      </button>
+
+    </section>
+
+  </main>
+
+
+  <!-- TROFEOS -->
+
+  <main id="pantallaTrofeos" class="oculto">
+
+    <section class="tarjeta">
+
+      <h2>🏆 Trofeos</h2>
+
+      <p>Elegí un desafío.</p>
+
+      <div id="listaTrofeos" class="trofeos"></div>
+
+      <button class="volver" onclick="volverMenu()">
+        ← Volver
+      </button>
+
+    </section>
+
+  </main>
+
+
+  <!-- JUEGO -->
+
+  <main id="juego" class="oculto">
+
+    <section class="tarjeta">
+
+      <p>
+        Problema <span id="numero">1</span> / 20
+      </p>
+
+      <h2 id="modo"></h2>
+
+      <div id="pregunta"></div>
+
+      <input
+        id="respuesta"
+        type="number"
+        placeholder="Tu respuesta"
+      >
+
+      <br>
+
+      <button class="iniciar" onclick="comprobar()">
+        Responder
+      </button>
+
+      <p id="resultado"></p>
+
+    </section>
+
+  </main>
+
+
+  <!-- FINAL -->
+
+  <main id="final" class="oculto">
+
+    <section class="tarjeta">
+
+      <h2>🎉 ¡Terminaste!</h2>
+
+      <p id="puntuacion"></p>
+
+      <button class="iniciar" onclick="volverMenu()">
+        Volver al menú
+      </button>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+    MateLabs © 2026
+  </footer>
+
+
+  <script>
+
+    let nombre = "";
+    let numeroProblema = 0;
+    let puntos = 0;
+    let respuestaCorrecta = 0;
+    let dificultad = 1;
+
+
+    function iniciar() {
+
+      nombre = document
+        .getElementById("nombre")
+        .value
+        .trim();
+
+      if (nombre === "") {
+        alert("Escribí tu nombre primero.");
+        return;
+      }
+
+      document
+        .getElementById("inicio")
+        .classList
+        .add("oculto");
+
+      document
+        .getElementById("menu")
+        .classList
+        .remove("oculto");
+
+      document
+        .getElementById("saludo")
+        .textContent =
+        "¡Hola, " + nombre + "! 👋";
+    }
+
+
+    function numeroAleatorio(min, max) {
+
+      return Math.floor(
+        Math.random() * (max - min + 1)
+      ) + min;
+
+    }
+
+
+    function practica() {
+
+      dificultad = 1;
+
+      iniciarJuego(
+        "🎮 Modo Práctica"
+      );
+
+    }
+
+
+    function mostrarTrofeos() {
+
+      document
+        .getElementById("menu")
+        .classList
+        .add("oculto");
+
+      document
+        .getElementById("pantallaTrofeos")
+        .classList
+        .remove("oculto");
+
+      let lista =
+        document.getElementById("listaTrofeos");
+
+      lista.innerHTML = "";
+
+      for (let i = 1; i <= 50; i++) {
+
+        let boton =
+          document.createElement("div");
+
+        boton.className = "trofeo";
+
+        let dificultadTexto;
+
+        if (i <= 9) {
+          dificultadTexto = "🟢 Fácil";
+        }
+        else if (i <= 24) {
+          dificultadTexto = "🟡 Intermedio";
+        }
+        else if (i <= 39) {
+          dificultadTexto = "🔴 Difícil";
+        }
+        else if (i <= 49) {
+          dificultadTexto = "🟣 Muy difícil";
+        }
+        else {
+          dificultadTexto = "💀 Máximo";
+        }
+
+        boton.innerHTML =
+          "🏆 " + i +
+          "<br>" +
+          "<small>" +
+          dificultadTexto +
+          "</small>";
+
+        boton.onclick = function() {
+
+          dificultad = i;
+
+          iniciarJuego(
+            "🏆 Trofeo " + i
+          );
+
+        };
+
+        lista.appendChild(boton);
+
+      }
+
+    }
+
+
+    function iniciarJuego(textoModo) {
+
+      numeroProblema = 0;
+      puntos = 0;
+
+      document
+        .getElementById("menu")
+        .classList
+        .add("oculto");
+
+      document
+        .getElementById("pantallaTrofeos")
+        .classList
+        .add("oculto");
+
+      document
+        .getElementById("final")
+        .classList
+        .add("oculto");
+
+      document
+        .getElementById("juego")
+        .classList
+        .remove("oculto");
+
+      document
+        .getElementById("modo")
+        .textContent = textoModo;
+
+      siguienteProblema();
+
+    }
+
+
+    function siguienteProblema() {
+
+      numeroProblema++;
+
+      if (numeroProblema > 20) {
+
+        terminar();
+
+        return;
+
+      }
+
+      document
+        .getElementById("numero")
+        .textContent =
+        numeroProblema;
+
+      document
+        .getElementById("resultado")
+        .textContent = "";
+
+      document
+        .getElementById("respuesta")
+        .value = "";
+
+
+      let nivel = dificultad;
+
+      let maximo;
+
+      if (nivel <= 9) {
+        maximo = 20 + nivel * 10;
+      }
+      else if (nivel <= 24) {
+        maximo = 100 + nivel * 20;
+      }
+      else if (nivel <= 39) {
+        maximo = 300 + nivel * 30;
+      }
+      else if (nivel <= 49) {
+        maximo = 1000 + nivel * 50;
+      }
+      else {
+        maximo = 5000;
+      }
+
+
+      let operaciones = [
+        "suma",
+        "resta",
+        "multiplicacion",
+        "division"
+      ];
+
+      let operacion =
+        operaciones[
+          numeroAleatorio(0, 3)
+        ];
+
+
+      let a;
+      let b;
+
+
+      if (operacion === "suma") {
+
+        a = numeroAleatorio(10, maximo);
+        b = numeroAleatorio(10, maximo);
+
+        respuestaCorrecta = a + b;
+
+        mostrarPregunta(
+          a + " + " + b + " = ?"
+        );
+
+      }
+
+
+      else if (operacion === "resta") {
+
+        a = numeroAleatorio(10, maximo);
+        b = numeroAleatorio(1, a);
+
+        respuestaCorrecta = a - b;
+
+        mostrarPregunta(
+          a + " − " + b + " = ?"
+        );
+
+      }
+
+
+      else if (operacion === "multiplicacion") {
+
+        let limite =
+          Math.min(
+            Math.max(10, nivel + 10),
+            100
+          );
+
+        a = numeroAleatorio(2, limite);
+        b = numeroAleatorio(2, limite);
+
+        respuestaCorrecta = a * b;
+
+        mostrarPregunta(
+          a + " × " + b + " = ?"
+        );
+
+      }
+
+
+      else {
+
+        b = numeroAleatorio(
+          2,
+          Math.min(50, nivel + 5)
+        );
+
+        respuestaCorrecta =
+          numeroAleatorio(
+            2,
+            Math.min(100, nivel * 3 + 10)
+          );
+
+        a = b * respuestaCorrecta;
+
+        mostrarPregunta(
+          a + " ÷ " + b + " = ?"
+        );
+
+      }
+
+    }
+
+
+    function mostrarPregunta(texto) {
+
+      document
+        .getElementById("pregunta")
+        .textContent = texto;
+
+    }
+
+
+    function comprobar() {
+
+      let campo =
+        document.getElementById("respuesta");
+
+      if (campo.value === "") {
+
+        document
+          .getElementById("resultado")
+          .textContent =
+          "Escribí una respuesta.";
+
+        return;
+
+      }
+
+
+      let respuesta =
+        Number(campo.value);
+
+
+      if (respuesta === respuestaCorrecta) {
+
+        puntos++;
+
+        document
+          .getElementById("resultado")
+          .textContent =
+          "✅ ¡Correcto!";
+
+      }
+
+      else {
+
+        document
+          .getElementById("resultado")
+          .textContent =
+          "❌ Incorrecto. Era " +
+          respuestaCorrecta;
+
+      }
+
+
+      setTimeout(
+        siguienteProblema,
+        700
+      );
+
+    }
+
+
+    function terminar() {
+
+      document
+        .getElementById("juego")
+        .classList
+        .add("oculto");
+
+      document
+        .getElementById("final")
+        .classList
+        .remove("oculto");
+
+      document
+        .getElementById("puntuacion")
+        .textContent =
+        nombre +
+        ", conseguiste " +
+        puntos +
+        " de 20.";
+
+    }
+
+
+    function volverMenu() {
+
+      document
+        .getElementById("pantallaTrofeos")
+        .classList
+        .add("oculto");
+
+      document
+        .getElementById("juego")
+        .classList
+        .add("oculto");
+
+      document
+        .getElementById("final")
+        .classList
+        .add("oculto");
+
+      document
+        .getElementById("menu")
+        .classList
+        .remove("oculto");
+
+    }
+
+
+    function zonaSecreta() {
+
+      let clave =
+        prompt("🔐 Introducí la contraseña:");
+
+      if (clave === "3128") {
+
+        alert(
+          "🔓 ¡Zona secreta desbloqueada!"
+        );
+
+      }
+
+      else {
+
+        alert(
+          "❌ Contraseña incorrecta."
+        );
+
+      }
+
+    }
+
+  </script>
+
+</body>
+
+</html>
