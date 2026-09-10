@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrenamiento Mental</title>
+
+    <style>
+        body {
+            background: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .pantalla {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        h1 {
+            margin-top: 40px;
+        }
+
+        button {
+            background: #1479ff;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 8px;
+        }
+
+        button:hover {
+            background: #0d5dcc;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 6px;
+            border: none;
+            margin: 10px;
+        }
+
+        .oculto {
+            display: none;
+        }
+
+        #firma {
+            position: fixed;
+            right: 15px;
+            bottom: 10px;
+            font-size: 14px;
+        }
+
+        .trofeo {
+            font-size: 30px;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="pantalla">
+
+    <div id="inicio">
+        <h1>🧠 Entrenamiento Mental</h1>
+        <p>Preparáte para poner a prueba tu mente.</p>
+
+        <input type="password" id="contrasena" placeholder="Contraseña">
+
+        <br>
+
+        <button onclick="iniciar()">INICIAR</button>
+
+        <p id="mensaje"></p>
+    </div>
+
+
+    <div id="dificultad" class="oculto">
+        <h1>Elegí tu dificultad</h1>
+
+        <button onclick="elegirNivel('basico')">🟢 Básico</button>
+        <button onclick="elegirNivel('intermedio')">🟡 Intermedio</button>
+        <button onclick="elegirNivel('avanzado')">🔴 Avanzado</button>
+
+        <p>🏆 Trofeos: <span id="trofeos">0</span></p>
+    </div>
+
+
+    <div id="ejercicio" class="oculto">
+        <h1 id="tituloNivel"></h1>
+
+        <p id="numeroEjercicio"></p>
+
+        <h2 id="pregunta"></h2>
+
+        <input type="number" id="respuesta" placeholder="Tu respuesta">
+
+        <br>
+
+        <button onclick="comprobar()">Responder</button>
+
+        <p id="resultado"></p>
+    </div>
+
+
+    <div id="final" class="oculto">
+        <h1>🏆 ¡Terminaste!</h1>
+
+        <p id="puntajeFinal"></p>
+        <p id="trofeosFinal"></p>
+
+        <button onclick="volverAlInicio()">Volver a jugar</button>
+    </div>
+
+</div>
+
+<div id="firma">
+    Felipe Catania — 7°B
+</div>
+
+
+<script>
+
+    // Cambiá esta contraseña por la que quieras
+    const CONTRASENA = "1234";
+
+    let nivel = "";
+    let ejercicioActual = 0;
+    let cantidadEjercicios = 5;
+    let puntaje = 0;
+    let trofeos = 0;
+    let respuestaCorrecta = 0;
+
+
+    function iniciar() {
+
+        let clave = document.getElementById("contrasena").value;
+
+        if (clave === CONTRASENA) {
+
+            document.getElementById("inicio").classList.add("oculto");
+            document.getElementById("dificultad").classList.remove("oculto");
+
+        } else {
+
+            document.getElementById("mensaje").textContent =
+                "❌ Contraseña incorrecta";
+        }
+    }
+
+
+    function elegirNivel(nuevoNivel) {
+
+        nivel = nuevoNivel;
+
+        // Cada trofeo agrega un ejercicio
+        cantidadEjercicios = 5 + trofeos;
+
+        ejercicioActual = 0;
+        puntaje = 0;
+
+        document.getElementById("dificultad").classList.add("oculto");
+        document.getElementById("ejercicio").classList.remove("oculto");
+
+        mostrarEjercicio();
+    }
+
+
+    function mostrarEjercicio() {
+
+        document.getElementById("resultado").textContent = "";
+        document.getElementById("respuesta").value = "";
+
+        document.getElementById("numeroEjercicio").textContent =
+            "Ejercicio " + (ejercicioActual + 1) +
+            " de " + cantidadEjercicios;
+
+
+        let a;
+        let b;
+
+        if (nivel === "basico") {
+
+            a = Math.floor(Math.random() * 50) + 1;
+            b = Math.floor(Math.random() * 50) + 1;
+
+            respuestaCorrecta = a + b;
+
+            document.getElementById("tituloNivel").textContent =
+                "🟢 Nivel Básico";
+
+            document.getElementById("pregunta").textContent =
+                a + " + " + b + " = ?";
+
+        }
+
+        else if (nivel === "intermedio") {
+
+            a = Math.floor(Math.random() * 100) + 1;
+            b = Math.floor(Math.random() * 50) + 1;
+
+            respuestaCorrecta = a * b;
+
+            document.getElementById("tituloNivel").textContent =
+                "🟡 Nivel Intermedio";
+
+            document.getElementById("pregunta").textContent =
+                a + " × " + b + " = ?";
+
+        }
+
+        else {
+
+            a = Math.floor(Math.random() * 200) + 1;
+            b = Math.floor(Math.random() * 100) + 1;
+
+            respuestaCorrecta = a * b - a;
+
+            document.getElementById("tituloNivel").textContent =
+                "🔴 Nivel Avanzado";
+
+            document.getElementById("pregunta").textContent =
+                a + " × " + b + " - " + a + " = ?";
+        }
+    }
+
+
+    function comprobar() {
+
+        let respuesta = Number(
+            document.getElementById("respuesta").value
+        );
+
+        if (respuesta === respuestaCorrecta) {
+
+            puntaje++;
+
+            document.getElementById("resultado").textContent =
+                "✅ ¡Correcto!";
+
+        } else {
+
+            document.getElementById("resultado").textContent =
+                "❌ Incorrecto. La respuesta era " + respuestaCorrecta;
+        }
+
+        ejercicioActual++;
+
+        if (ejercicioActual >= cantidadEjercicios) {
+
+            terminar();
+
+        } else {
+
+            setTimeout(mostrarEjercicio, 700);
+        }
+    }
+
+
+    function terminar() {
+
+        // Si consiguió suficientes respuestas correctas,
+        // gana un trofeo.
+        if (puntaje >= cantidadEjercicios - 1) {
+
+            trofeos++;
+        }
+
+        document.getElementById("ejercicio").classList.add("oculto");
+        document.getElementById("final").classList.remove("oculto");
+
+        document.getElementById("puntajeFinal").textContent =
+            "Puntaje: " + puntaje + " / " + cantidadEjercicios;
+
+        document.getElementById("trofeosFinal").textContent =
+            "🏆 Trofeos: " + trofeos;
+    }
+
+
+    function volverAlInicio() {
+
+        document.getElementById("final").classList.add("oculto");
+        document.getElementById("dificultad").classList.remove("oculto");
+
+        document.getElementById("trofeos").textContent = trofeos;
+    }
+
+</script>
+
+</body>
+</html>
