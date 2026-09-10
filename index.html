@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MateLabs</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      color: #222;
+      text-align: center;
+    }
+
+    header {
+      background: white;
+      padding: 35px 20px;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .logo {
+      font-size: 50px;
+    }
+
+    h1 {
+      margin: 5px 0;
+      font-size: 42px;
+    }
+
+    header p {
+      font-size: 18px;
+      color: #666;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .bienvenida {
+      background: white;
+      padding: 35px 20px;
+      border-radius: 18px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .bienvenida h2 {
+      font-size: 30px;
+    }
+
+    .bienvenida p {
+      font-size: 18px;
+      color: #555;
+    }
+
+    .boton {
+      background: #222;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .boton:hover {
+      background: #444;
+    }
+
+    .categorias {
+      margin-top: 30px;
+    }
+
+    .categorias h2 {
+      font-size: 28px;
+    }
+
+    .tarjetas {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .tarjeta {
+      background: white;
+      padding: 25px 10px;
+      border-radius: 15px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .tarjeta .emoji {
+      font-size: 35px;
+    }
+
+    .tarjeta h3 {
+      margin-bottom: 5px;
+    }
+
+    .trofeos {
+      margin-top: 35px;
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+    }
+
+    .trofeos h2 {
+      font-size: 28px;
+    }
+
+    .trofeo {
+      font-size: 45px;
+      margin: 10px;
+    }
+
+    footer {
+      margin-top: 40px;
+      padding: 25px;
+      color: #777;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+
+    <div class="logo">🧠</div>
+
+    <h1>MateLabs</h1>
+
+    <p>Aprendé matemática. Practicá. Mejorá.</p>
+
+  </header>
+
+
+  <main>
+
+    <section class="bienvenida">
+
+      <h2>¡Bienvenido a MateLabs! 👋</h2>
+
+      <p>
+        Un lugar para practicar matemática
+        de una manera sencilla y divertida.
+      </p>
+
+      <p>
+        Elegí una categoría y empezá a resolver problemas.
+      </p>
+
+      <button class="boton" onclick="empezar()">
+        🚀 Empezar a practicar
+      </button>
+
+    </section>
+
+
+    <section class="categorias">
+
+      <h2>📚 Categorías</h2>
+
+      <div class="tarjetas">
+
+        <div class="tarjeta">
+          <div class="emoji">➕</div>
+          <h3>Sumas</h3>
+          <p>Practicá sumas.</p>
+        </div>
+
+        <div class="tarjeta">
+          <div class="emoji">➖</div>
+          <h3>Restas</h3>
+          <p>Practicá restas.</p>
+        </div>
+
+        <div class="tarjeta">
+          <div class="emoji">✖️</div>
+          <h3>Multiplicaciones</h3>
+          <p>Mejorá tus cálculos.</p>
+        </div>
+
+        <div class="tarjeta">
+          <div class="emoji">➗</div>
+          <h3>Divisiones</h3>
+          <p>Entrená tus divisiones.</p>
+        </div>
+
+        <div class="tarjeta">
+          <div class="emoji">🔢</div>
+          <h3>Mixto</h3>
+          <p>Un poco de todo.</p>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="trofeos">
+
+      <h2>🏆 Trofeos</h2>
+
+      <p>Superá desafíos para conseguir trofeos.</p>
+
+      <div>
+        <span class="trofeo">☯️</span>
+        <span class="trofeo">🥇</span>
+        <span class="trofeo">♦️</span>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+
+    MateLabs © 2026
+
+  </footer>
+
+
+  <script>
+
+    function empezar() {
+      alert("¡Vamos a practicar matemática! 🧠");
+    }
+
+  </script>
+
+</body>
+
+</html>
