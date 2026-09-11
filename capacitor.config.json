@@ -1,0 +1,6 @@
+{
+  "appId": "com.matelabs.app",
+  "appName": "MateLabs",
+  "webDir": ".",
+  "bundledWebRuntime": false
+}
