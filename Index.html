@@ -1,0 +1,1954 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<title>MateLabs 5.0</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+ --bg:#05060a;
+ --card:#11131b;
+ --card2:#181b26;
+ --text:#fff;
+ --muted:#9da5b8;
+ --line:#303342;
+ --green:#39ff72;
+ --cyan:#35e8ff;
+ --purple:#9b55ff;
+ --pink:#ff4bd8;
+ --yellow:#ffe45c;
+ --red:#ff6060;
+}
+
+body.light{
+ --bg:#f4f6fb;
+ --card:#fff;
+ --card2:#edf0f6;
+ --text:#111;
+ --muted:#596174;
+ --line:#d4d9e4;
+}
+
+body{
+ background:
+ radial-gradient(circle at 10% 10%,#39ff7218,transparent 25%),
+ radial-gradient(circle at 90% 20%,#9b55ff18,transparent 25%),
+ var(--bg);
+ color:var(--text);
+ font-family:Arial,sans-serif;
+ min-height:100vh;
+ overflow-x:hidden;
+}
+
+button,input{font:inherit}
+button{cursor:pointer;border:0}
+
+.hidden{display:none!important}
+
+.screen{
+ min-height:100vh;
+ padding:18px;
+ animation:appear .3s ease;
+}
+
+@keyframes appear{
+ from{opacity:0;transform:translateY(10px)}
+ to{opacity:1;transform:translateY(0)}
+}
+
+.container{
+ width:min(1100px,100%);
+ margin:auto;
+}
+
+/* COLORES */
+
+.color{
+ background:linear-gradient(
+  90deg,
+  var(--green),
+  var(--cyan),
+  var(--purple),
+  var(--pink),
+  var(--yellow),
+  var(--green)
+ );
+ background-size:400%;
+ color:transparent;
+ -webkit-background-clip:text;
+ background-clip:text;
+ animation:rainbow 5s linear infinite;
+}
+
+@keyframes rainbow{
+ from{background-position:0}
+ to{background-position:400%}
+}
+
+/* LOGIN */
+
+.login{
+ min-height:100vh;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+}
+
+.login-box{
+ width:min(430px,100%);
+ padding:32px;
+ border-radius:27px;
+ background:linear-gradient(145deg,var(--card),var(--card2));
+ border:1px solid var(--line);
+ box-shadow:0 0 50px #0008;
+ text-align:center;
+}
+
+.logo{
+ font-size:60px;
+ font-weight:1000;
+ margin-bottom:5px;
+}
+
+.login-box input{
+ width:100%;
+ padding:15px;
+ margin:20px 0 10px;
+ border-radius:14px;
+ border:1px solid var(--line);
+ background:var(--bg);
+ color:var(--text);
+ text-align:center;
+ outline:none;
+}
+
+.primary{
+ width:100%;
+ padding:15px;
+ border-radius:15px;
+ background:linear-gradient(90deg,var(--green),var(--cyan));
+ color:#001;
+ font-weight:1000;
+}
+
+/* TOP */
+
+.topbar{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+ max-width:1100px;
+ margin:auto;
+}
+
+.mini-logo{
+ font-size:27px;
+ font-weight:1000;
+}
+
+.actions{
+ display:flex;
+ gap:7px;
+}
+
+.small{
+ padding:9px 12px;
+ border-radius:12px;
+ background:var(--card2);
+ color:var(--text);
+ border:1px solid var(--line);
+}
+
+/* HERO */
+
+.hero{
+ margin-top:18px;
+ padding:25px;
+ border-radius:25px;
+ border:1px solid var(--line);
+ background:linear-gradient(145deg,var(--card),var(--card2));
+}
+
+.hero h1{
+ font-size:clamp(30px,7vw,55px);
+ margin-bottom:7px;
+}
+
+.hero p{
+ color:var(--muted);
+}
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:10px;
+ margin-top:20px;
+}
+
+.stat{
+ background:var(--bg);
+ border:1px solid var(--line);
+ border-radius:15px;
+ padding:14px;
+ text-align:center;
+}
+
+.stat b{
+ display:block;
+ font-size:23px;
+ color:var(--cyan);
+}
+
+.stat span{
+ font-size:12px;
+ color:var(--muted);
+}
+
+.xp{
+ height:12px;
+ margin-top:18px;
+ border-radius:20px;
+ background:var(--bg);
+ overflow:hidden;
+}
+
+.xp div{
+ height:100%;
+ background:linear-gradient(
+  90deg,
+  var(--green),
+  var(--cyan),
+  var(--purple)
+ );
+ transition:.4s;
+}
+
+/* SECRET BUTTON */
+
+.secret{
+ width:100%;
+ margin-top:15px;
+ padding:22px;
+ border-radius:22px;
+ color:white;
+ font-weight:1000;
+ font-size:23px;
+ background:
+  linear-gradient(#08090e,#08090e) padding-box,
+  linear-gradient(
+   90deg,
+   var(--green),
+   var(--cyan),
+   var(--purple),
+   var(--pink),
+   var(--yellow)
+  ) border-box;
+ border:3px solid transparent;
+ animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+ 50%{box-shadow:0 0 30px #9b55ff66}
+}
+
+/* CARDS */
+
+.title{
+ margin:28px 0 13px;
+ font-size:27px;
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:12px;
+}
+
+.card{
+ padding:20px;
+ min-height:135px;
+ border-radius:20px;
+ background:linear-gradient(145deg,var(--card),var(--card2));
+ border:1px solid var(--line);
+ transition:.2s;
+}
+
+.card:hover{
+ transform:translateY(-4px);
+ border-color:var(--cyan);
+}
+
+.card .emoji{
+ font-size:37px;
+ margin-bottom:8px;
+}
+
+.card h3{
+ font-size:18px;
+}
+
+.card p{
+ color:var(--muted);
+ font-size:13px;
+ margin-top:6px;
+}
+
+/* GAME */
+
+.game{
+ width:min(800px,100%);
+ margin:25px auto;
+ padding:25px;
+ background:var(--card);
+ border:1px solid var(--line);
+ border-radius:25px;
+}
+
+.game-top{
+ display:flex;
+ justify-content:space-between;
+ color:var(--muted);
+}
+
+.question{
+ text-align:center;
+ font-size:clamp(35px,8vw,65px);
+ font-weight:1000;
+ margin:40px 0;
+}
+
+.options{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:12px;
+}
+
+.option{
+ padding:18px;
+ border-radius:15px;
+ background:var(--card2);
+ color:var(--text);
+ border:1px solid var(--line);
+ font-weight:900;
+}
+
+.option:hover{
+ border-color:var(--cyan);
+ color:var(--cyan);
+}
+
+.feedback{
+ text-align:center;
+ min-height:28px;
+ margin-top:15px;
+ font-weight:bold;
+}
+
+/* TROFEOS */
+
+.trophy-grid{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:9px;
+}
+
+.trophy{
+ padding:15px 8px;
+ min-height:100px;
+ text-align:center;
+ border-radius:15px;
+ background:var(--card2);
+ border:1px solid var(--line);
+}
+
+.trophy span{
+ display:block;
+ font-size:35px;
+ margin-bottom:5px;
+}
+
+.trophy small{
+ color:var(--muted);
+}
+
+.locked{
+ opacity:.28;
+ filter:grayscale(1);
+}
+
+/* CHEF */
+
+.map{
+ position:relative;
+ width:100%;
+ height:470px;
+ margin-top:15px;
+ overflow:hidden;
+ border-radius:27px;
+ border:2px solid var(--line);
+ background:
+ radial-gradient(circle at 20% 20%,#39ff7220,transparent 20%),
+ radial-gradient(circle at 80% 70%,#9b55ff20,transparent 25%),
+ #07100e;
+ touch-action:none;
+}
+
+.map:before{
+ content:"";
+ position:absolute;
+ inset:0;
+ background-image:
+  linear-gradient(#fff1 1px,transparent 1px),
+  linear-gradient(90deg,#fff1 1px,transparent 1px);
+ background-size:40px 40px;
+}
+
+.chef{
+ position:absolute;
+ left:50%;
+ top:50%;
+ transform:translate(-50%,-50%);
+ z-index:10;
+ font-size:48px;
+ user-select:none;
+}
+
+.chef-name{
+ position:absolute;
+ top:-18px;
+ left:50%;
+ transform:translateX(-50%);
+ white-space:nowrap;
+ font-size:9px;
+ background:#000b;
+ padding:3px 6px;
+ border-radius:5px;
+}
+
+.map-coin{
+ position:absolute;
+ font-size:28px;
+ z-index:5;
+ filter:drop-shadow(0 0 8px #ffe45c);
+}
+
+.c1{left:15%;top:20%}
+.c2{left:75%;top:20%}
+.c3{left:25%;top:75%}
+.c4{left:80%;top:75%}
+.c5{left:50%;top:15%}
+
+.controls{
+ display:grid;
+ grid-template-columns:65px 65px 65px;
+ justify-content:center;
+ gap:7px;
+ margin-top:12px;
+}
+
+.control{
+ width:65px;
+ height:55px;
+ border-radius:15px;
+ background:var(--card2);
+ color:var(--text);
+ border:1px solid var(--line);
+ font-size:24px;
+}
+
+.empty{visibility:hidden}
+
+/* MODAL */
+
+.modal-bg{
+ position:fixed;
+ inset:0;
+ background:#000b;
+ z-index:100;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+}
+
+.modal-bg.show{display:flex}
+
+.modal{
+ width:min(650px,100%);
+ max-height:90vh;
+ overflow:auto;
+ background:var(--card);
+ border:1px solid var(--line);
+ border-radius:25px;
+ padding:25px;
+}
+
+.close{
+ width:100%;
+ margin-top:15px;
+ padding:13px;
+ border-radius:13px;
+ background:var(--card2);
+ color:var(--text);
+}
+
+/* CODE */
+
+.secret-code{
+ text-align:center;
+ font-size:45px;
+ letter-spacing:10px;
+ margin:25px 0;
+ color:var(--cyan);
+ font-weight:1000;
+}
+
+.code-input{
+ width:100%;
+ padding:15px;
+ border-radius:13px;
+ border:1px solid var(--line);
+ background:var(--bg);
+ color:var(--text);
+ text-align:center;
+ font-size:24px;
+}
+
+/* TOAST */
+
+.toast{
+ position:fixed;
+ left:50%;
+ bottom:20px;
+ transform:translate(-50%,30px);
+ opacity:0;
+ background:#111722;
+ border:1px solid var(--cyan);
+ color:white;
+ padding:13px 18px;
+ border-radius:14px;
+ z-index:500;
+ transition:.3s;
+ pointer-events:none;
+}
+
+.toast.show{
+ opacity:1;
+ transform:translate(-50%,0);
+}
+
+/* TROFEO OCULTO */
+
+.hidden-trophy{
+ position:fixed;
+ left:3px;
+ bottom:2px;
+ font-size:5px;
+ color:var(--text);
+ opacity:.12;
+ cursor:pointer;
+ z-index:9999;
+}
+
+@media(max-width:700px){
+ .grid{grid-template-columns:repeat(2,1fr)}
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .trophy-grid{grid-template-columns:repeat(3,1fr)}
+}
+
+@media(max-width:450px){
+ .grid{grid-template-columns:1fr}
+ .options{grid-template-columns:1fr}
+ .trophy-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<section id="login" class="login">
+
+ <div class="login-box">
+
+  <div class="logo color">MateLabs</div>
+
+  <p class="color">
+   5.0 — Matemática sin límites
+  </p>
+
+  <input
+   id="password"
+   type="password"
+   placeholder="Contraseña"
+  >
+
+  <button class="primary" onclick="login()">
+   🚀 INICIAR
+  </button>
+
+  <p id="loginError" style="color:#ff6060;margin-top:10px"></p>
+
+ </div>
+
+</section>
+
+
+<!-- APP -->
+
+<section id="app" class="screen hidden">
+
+ <div class="topbar">
+
+  <div class="mini-logo color">
+   MateLabs 5.0
+  </div>
+
+  <div class="actions">
+   <button class="small" onclick="theme()">🌓</button>
+   <button class="small" onclick="logout()">🚪</button>
+  </div>
+
+ </div>
+
+
+ <div class="container">
+
+  <div class="hero">
+
+   <h1 class="color">
+    ¡Bienvenido a MateLabs!
+   </h1>
+
+   <p>
+    Entrená, jugá, conseguí trofeos y descubrí secretos.
+   </p>
+
+   <div class="stats">
+
+    <div class="stat">
+     <b id="level">1</b>
+     <span>Nivel</span>
+    </div>
+
+    <div class="stat">
+     <b id="coins">0</b>
+     <span>Monedas</span>
+    </div>
+
+    <div class="stat">
+     <b id="trophies">0</b>
+     <span>Trofeos</span>
+    </div>
+
+    <div class="stat">
+     <b id="streak">0</b>
+     <span>Racha</span>
+    </div>
+
+   </div>
+
+   <div class="xp">
+    <div id="xp"></div>
+   </div>
+
+   <p id="xpText" style="margin-top:6px"></p>
+
+  </div>
+
+
+  <button class="secret" onclick="secretMode()">
+   🔮 MODO SECRETO 🔮
+  </button>
+
+
+  <h2 class="title color">
+   🎮 Modos de juego
+  </h2>
+
+  <div class="grid">
+
+   <div class="card" onclick="difficulty()">
+    <div class="emoji">🧠</div>
+    <h3 class="color">Entrenamiento</h3>
+    <p>Entrená con operaciones.</p>
+   </div>
+
+   <div class="card" onclick="bomb()">
+    <div class="emoji">💣</div>
+    <h3 class="color">Bomba Matemática</h3>
+    <p>Respondé antes de que explote.</p>
+   </div>
+
+   <div class="card" onclick="secretCode()">
+    <div class="emoji">🔐</div>
+    <h3 class="color">Código Secreto</h3>
+    <p>Memorizá y escribí el código.</p>
+   </div>
+
+   <div class="card" onclick="race()">
+    <div class="emoji">🏁</div>
+    <h3 class="color">Carrera Matemática</h3>
+    <p>Contestá 10 preguntas rápido.</p>
+   </div>
+
+   <div class="card" onclick="boss()">
+    <div class="emoji">👑</div>
+    <h3 class="color">Jefe Matemático</h3>
+    <p>Derrotá al jefe.</p>
+   </div>
+
+   <div class="card" onclick="shoot()">
+    <div class="emoji">🎯</div>
+    <h3 class="color">Tiro al Resultado</h3>
+    <p>Elegí el resultado correcto.</p>
+   </div>
+
+   <div class="card" onclick="puzzle()">
+    <div class="emoji">🧩</div>
+    <h3 class="color">Rompecabezas</h3>
+    <p>Ordená la operación.</p>
+   </div>
+
+   <div class="card" onclick="infinite()">
+    <div class="emoji">🔥</div>
+    <h3 class="color">Racha Infinita</h3>
+    <p>Seguí hasta equivocarte.</p>
+   </div>
+
+   <div class="card" onclick="invasion()">
+    <div class="emoji">👾</div>
+    <h3 class="color">Invasión Matemática</h3>
+    <p>Eliminá enemigos.</p>
+   </div>
+
+  </div>
+
+
+  <h2 class="title color">
+   👨‍🍳 Mundo MateLabs
+  </h2>
+
+  <p style="color:var(--muted)">
+   Mové al chef y juntá las monedas.
+  </p>
+
+  <div class="map" id="map">
+
+   <div id="chef" class="chef">
+    <div class="chef-name">MateChef</div>
+    👨‍🍳
+   </div>
+
+   <div class="map-coin c1">🪙</div>
+   <div class="map-coin c2">🪙</div>
+   <div class="map-coin c3">🪙</div>
+   <div class="map-coin c4">🪙</div>
+   <div class="map-coin c5">🪙</div>
+
+  </div>
+
+  <div class="controls">
+
+   <button class="control empty"></button>
+
+   <button class="control" onclick="moveChef('up')">⬆️</button>
+
+   <button class="control empty"></button>
+
+   <button class="control" onclick="moveChef('left')">⬅️</button>
+
+   <button class="control" onclick="moveChef('down')">⬇️</button>
+
+   <button class="control" onclick="moveChef('right')">➡️</button>
+
+  </div>
+
+
+  <h2 class="title color">
+   🏆 Trofeos secretos
+  </h2>
+
+  <div class="trophy-grid">
+
+   <div id="waterTrophy" class="trophy locked">
+    <span>💧</span>
+    <b>Agua</b>
+    <small>Difícil</small>
+   </div>
+
+   <div id="fireTrophy" class="trophy locked">
+    <span>🔥</span>
+    <b>Fuego</b>
+    <small>Muy difícil</small>
+   </div>
+
+   <div id="smokeTrophy" class="trophy locked">
+    <span>💨</span>
+    <b>Humo</b>
+    <small>Extremo</small>
+   </div>
+
+  </div>
+
+ </div>
+
+</section>
+
+
+<!-- MODAL -->
+
+<div id="modalBg" class="modal-bg">
+
+ <div class="modal" id="modal"></div>
+
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+
+<!-- SECRETO CASI INVISIBLE -->
+
+<div class="hidden-trophy" onclick="hiddenTrophy()">
+ trofeo secreto
+</div>
+
+
+<script>
+
+/* =========================
+   DATOS
+========================= */
+
+const PASSWORD="Matelab123";
+
+const DEFAULT={
+ xp:0,
+ level:1,
+ coins:0,
+ trophies:0,
+ streak:0,
+ games:0,
+ correct:0,
+ wrong:0,
+ bestCombo:0,
+ mission:0,
+ theme:"dark",
+
+ secretTrophies:{
+  water:false,
+  fire:false,
+  smoke:false
+ }
+};
+
+let data=JSON.parse(localStorage.getItem("matelabs50"))||DEFAULT;
+
+data={...DEFAULT,...data};
+
+if(!data.secretTrophies){
+ data.secretTrophies={
+  water:false,
+  fire:false,
+  smoke:false
+ };
+}
+
+
+/* =========================
+   GUARDAR
+========================= */
+
+function save(){
+ localStorage.setItem("matelabs50",JSON.stringify(data));
+ update();
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+function login(){
+
+ const value=document.getElementById("password").value;
+
+ if(value.toLowerCase()===PASSWORD.toLowerCase()){
+
+  document.getElementById("login").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+
+  update();
+
+ }else{
+
+  document.getElementById("loginError").textContent=
+   "❌ Contraseña incorrecta";
+
+ }
+
+}
+
+document.getElementById("password").addEventListener(
+ "keydown",
+ e=>{
+  if(e.key==="Enter") login();
+ }
+);
+
+
+function logout(){
+
+ document.getElementById("app").classList.add("hidden");
+ document.getElementById("login").classList.remove("hidden");
+
+}
+
+
+/* =========================
+   ESTADÍSTICAS
+========================= */
+
+function update(){
+
+ document.getElementById("level").textContent=data.level;
+ document.getElementById("coins").textContent=data.coins;
+ document.getElementById("trophies").textContent=data.trophies;
+ document.getElementById("streak").textContent=data.streak;
+
+ const needed=data.level*100;
+ const percent=Math.min(100,(data.xp%needed)/needed*100);
+
+ document.getElementById("xp").style.width=percent+"%";
+
+ document.getElementById("xpText").textContent=
+  `${data.xp%needed} / ${needed} XP`;
+
+ updateSecretTrophies();
+}
+
+
+function addXP(amount){
+
+ data.xp+=amount;
+
+ const needed=data.level*100;
+
+ while(data.xp>=data.level*100){
+  data.xp-=data.level*100;
+  data.level++;
+  toast("⬆️ ¡Subiste de nivel!");
+ }
+
+}
+
+
+function addCoins(amount){
+ data.coins=Math.max(0,data.coins+amount);
+}
+
+
+function addTrophy(amount=1){
+ data.trophies+=amount;
+ toast("🏆 ¡Trofeo conseguido!");
+}
+
+
+/* =========================
+   TROFEOS SECRETOS
+========================= */
+
+function secretRoll(type){
+
+ if(data.secretTrophies[type]) return false;
+
+ if(Math.random()<0.01){
+
+  data.secretTrophies[type]=true;
+  addTrophy();
+
+  save();
+
+  toast("✨ ¡TROFEO ULTRA RARO!");
+
+  return true;
+ }
+
+ return false;
+}
+
+
+function updateSecretTrophies(){
+
+ const list=[
+  ["waterTrophy","water"],
+  ["fireTrophy","fire"],
+  ["smokeTrophy","smoke"]
+ ];
+
+ list.forEach(([id,key])=>{
+
+  const el=document.getElementById(id);
+
+  if(data.secretTrophies[key]){
+   el.classList.remove("locked");
+  }
+
+ });
+
+}
+
+
+/* =========================
+   TEMA
+========================= */
+
+function theme(){
+
+ document.body.classList.toggle("light");
+
+ data.theme=
+  document.body.classList.contains("light")
+   ?"light"
+   :"dark";
+
+ save();
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+function openModal(html){
+
+ document.getElementById("modal").innerHTML=
+  html+
+  `<button class="close" onclick="closeModal()">Cerrar</button>`;
+
+ document.getElementById("modalBg").classList.add("show");
+}
+
+function closeModal(){
+ document.getElementById("modalBg").classList.remove("show");
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+let toastTimer;
+
+function toast(text){
+
+ const t=document.getElementById("toast");
+
+ t.textContent=text;
+ t.classList.add("show");
+
+ clearTimeout(toastTimer);
+
+ toastTimer=setTimeout(()=>{
+  t.classList.remove("show");
+ },2200);
+}
+
+
+/* =========================
+   DIFICULTAD
+========================= */
+
+function difficulty(){
+
+ openModal(`
+  <h2 class="color">🧠 Entrenamiento</h2>
+
+  <div class="grid">
+
+   <button class="card" onclick="startGame('easy');closeModal()">
+    🟢<br><b>Fácil</b>
+   </button>
+
+   <button class="card" onclick="startGame('medium');closeModal()">
+    🔵<br><b>Medio</b>
+   </button>
+
+   <button class="card" onclick="startGame('hard');closeModal()">
+    🔴<br><b>Difícil</b>
+   </button>
+
+   <button class="card" onclick="startGame('nightmare');closeModal()">
+    ☠️<br><b>Pesadilla</b>
+   </button>
+
+  </div>
+ `);
+
+}
+
+
+/* =========================
+   GENERADOR
+========================= */
+
+function question(type){
+
+ let a,b,op,answer;
+
+ if(type==="easy"){
+
+  a=random(1,50);
+  b=random(1,50);
+  op=["+","-"][random(0,1)];
+
+ }
+
+ else if(type==="medium"){
+
+  a=random(10,150);
+  b=random(2,50);
+  op=["+","-","×"][random(0,2)];
+
+ }
+
+ else{
+
+  a=random(50,500);
+  b=random(2,100);
+  op=["+","-","×","÷"][random(0,3)];
+
+ }
+
+ if(op==="+") answer=a+b;
+ if(op==="-") answer=a-b;
+ if(op==="×") answer=a*b;
+
+ if(op==="÷"){
+  answer=a;
+  a=a*b;
+ }
+
+ return{
+  text:`${a} ${op} ${b} = ?`,
+  answer
+ };
+
+}
+
+
+function random(min,max){
+ return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+
+function options(correct){
+
+ const arr=[correct];
+
+ while(arr.length<4){
+
+  let n=correct+random(-20,20);
+
+  if(n!==correct && !arr.includes(n)){
+   arr.push(n);
+  }
+
+ }
+
+ return arr.sort(()=>Math.random()-.5);
+}
+
+
+/* =========================
+   ENTRENAMIENTO
+========================= */
+
+let currentGame=null;
+let gameCombo=0;
+
+function startGame(type){
+
+ currentGame={
+  type,
+  q:question(type)
+ };
+
+ openGame();
+
+}
+
+
+function openGame(){
+
+ const q=currentGame.q;
+
+ openModal(`
+  <h2 class="color">🧠 Entrenamiento</h2>
+
+  <div class="question color">
+   ${q.text}
+  </div>
+
+  <div class="options">
+
+   ${options(q.answer).map(n=>
+    `<button class="option" onclick="answer(${n})">${n}</button>`
+   ).join("")}
+
+  </div>
+
+  <div id="feedback" class="feedback"></div>
+ `);
+
+}
+
+
+function answer(value){
+
+ const correct=currentGame.q.answer;
+ const feedback=document.getElementById("feedback");
+
+ if(value===correct){
+
+  data.correct++;
+  data.streak++;
+  gameCombo++;
+
+  addXP(25);
+  addCoins(10);
+
+  if(gameCombo>data.bestCombo)
+   data.bestCombo=gameCombo;
+
+  feedback.textContent="✅ ¡Correcto!";
+
+  if(gameCombo>=10)
+   secretRoll("fire");
+
+  if(currentGame.type==="easy" || currentGame.type==="medium")
+   secretRoll("water");
+
+ }else{
+
+  data.wrong++;
+  data.streak=0;
+  gameCombo=0;
+
+  feedback.textContent="❌ Incorrecto";
+ }
+
+ save();
+
+ setTimeout(()=>{
+
+  currentGame.q=question(currentGame.type);
+  openGame();
+
+ },500);
+
+}
+
+
+/* =========================
+   BOMBA
+========================= */
+
+function bomb(){
+
+ let lives=3;
+ let points=0;
+
+ function next(){
+
+  const q=question("medium");
+
+  openModal(`
+   <h2 class="color">💣 Bomba Matemática</h2>
+
+   <p>❤️ Vidas: ${lives}</p>
+   <p>⭐ Puntos: ${points}</p>
+
+   <div class="question color">${q.text}</div>
+
+   <div class="options">
+   ${options(q.answer).map(n=>
+    `<button class="option"
+     onclick="bombAnswer(${n},${q.answer})">${n}</button>`
+   ).join("")}
+   </div>
+  `);
+
+ }
+
+ window.bombAnswer=function(value,correct){
+
+  if(value===correct){
+
+   points++;
+   addXP(20);
+   addCoins(8);
+
+   if(points>=5){
+    addXP(80);
+    secretRoll("water");
+
+    openModal(`
+     <h2 class="color">💣 ¡Bomba desactivada!</h2>
+     <p>Ganaste ${points} puntos.</p>
+    `);
+    save();
+    return;
+   }
+
+  }else{
+
+   lives--;
+
+   if(lives<=0){
+
+    if(points>=3)
+     secretRoll("fire");
+
+    openModal(`
+     <h2 class="color">💥 ¡BOOM!</h2>
+     <p>Conseguiste ${points} puntos.</p>
+    `);
+
+    save();
+    return;
+   }
+  }
+
+  save();
+  next();
+ };
+
+ next();
+}
+
+
+/* =========================
+   CÓDIGO SECRETO
+========================= */
+
+function secretCode(){
+
+ const code=""+random(1000,9999);
+
+ openModal(`
+  <h2 class="color">🔐 Código Secreto</h2>
+
+  <p>Memorizá este código.</p>
+
+  <div class="secret-code">
+   ${code}
+  </div>
+
+  <button class="primary"
+   onclick="showCodeInput('${code}')">
+   YA LO MEMORICÉ
+  </button>
+ `);
+
+}
+
+
+function showCodeInput(code){
+
+ document.getElementById("modal").innerHTML=`
+
+  <h2 class="color">🔐 Código Secreto</h2>
+
+  <input
+   id="codeInput"
+   class="code-input"
+   inputmode="numeric"
+   placeholder="Código"
+  >
+
+  <button
+   class="primary"
+   style="margin-top:12px"
+   onclick="checkCode('${code}')">
+   COMPROBAR
+  </button>
+
+  <button class="close" onclick="closeModal()">
+   Cancelar
+  </button>
+ `;
+
+}
+
+
+function checkCode(code){
+
+ const value=document.getElementById("codeInput").value;
+
+ if(value===code){
+
+  addXP(100);
+  addCoins(100);
+  data.correct++;
+
+  secretRoll("fire");
+
+  save();
+
+  openModal(`
+   <h2 class="color">🔓 ¡Código correcto!</h2>
+   <p>+100 XP</p>
+   <p>+100 monedas</p>
+  `);
+
+ }else{
+
+  toast("❌ Código incorrecto");
+
+ }
+
+}
+
+
+/* =========================
+   CARRERA
+========================= */
+
+function race(){
+
+ let count=0;
+ let score=0;
+
+ function next(){
+
+  if(count>=10){
+
+   addXP(score*15);
+   addCoins(score*10);
+
+   if(score===10)
+    secretRoll("fire");
+
+   save();
+
+   openModal(`
+    <h2 class="color">🏁 Carrera terminada</h2>
+    <p>Resultado: ${score}/10</p>
+   `);
+
+   return;
+  }
+
+  const q=question("medium");
+
+  openModal(`
+   <h2 class="color">🏁 Carrera</h2>
+   <p>Pregunta ${count+1}/10</p>
+
+   <div class="question color">${q.text}</div>
+
+   <div class="options">
+   ${options(q.answer).map(n=>
+    `<button class="option"
+     onclick="raceAnswer(${n},${q.answer})">${n}</button>`
+   ).join("")}
+   </div>
+  `);
+
+ }
+
+ window.raceAnswer=function(value,correct){
+
+  if(value===correct)score++;
+
+  count++;
+
+  next();
+ };
+
+ next();
+}
+
+
+/* =========================
+   JEFE
+========================= */
+
+function boss(){
+
+ let hp=5;
+
+ function next(){
+
+  if(hp<=0){
+
+   addXP(200);
+   addCoins(250);
+   secretRoll("smoke");
+
+   save();
+
+   openModal(`
+    <h2 class="color">👑 ¡JEFE DERROTADO!</h2>
+    <p>+200 XP</p>
+    <p>+250 monedas</p>
+   `);
+
+   return;
+  }
+
+  const q=question("hard");
+
+  openModal(`
+   <h2 class="color">👑 Jefe Matemático</h2>
+
+   <p>❤️ Vida del jefe: ${hp}</p>
+
+   <div class="question color">${q.text}</div>
+
+   <div class="options">
+   ${options(q.answer).map(n=>
+    `<button class="option"
+     onclick="bossAnswer(${n},${q.answer})">${n}</button>`
+   ).join("")}
+   </div>
+  `);
+
+ }
+
+ window.bossAnswer=function(value,correct){
+
+  if(value===correct){
+   hp--;
+   addXP(30);
+  }
+
+  next();
+ };
+
+ next();
+}
+
+
+/* =========================
+   TIRO
+========================= */
+
+function shoot(){
+
+ const q=question("medium");
+
+ openModal(`
+  <h2 class="color">🎯 Tiro al Resultado</h2>
+
+  <div class="question color">${q.text}</div>
+
+  <div class="options">
+   ${options(q.answer).map(n=>
+    `<button class="option"
+     onclick="shootAnswer(${n},${q.answer})">
+     🎯 ${n}
+    </button>`
+   ).join("")}
+  </div>
+ `);
+
+ window.shootAnswer=function(value,correct){
+
+  if(value===correct){
+
+   addXP(40);
+   addCoins(30);
+   secretRoll("water");
+
+   openModal(`
+    <h2 class="color">🎯 ¡Perfecto!</h2>
+    <p>+40 XP</p>
+   `);
+
+  }else{
+
+   toast("❌ Fallaste el tiro");
+
+  }
+
+  save();
+ };
+
+}
+
+
+/* =========================
+   ROMPECABEZAS
+========================= */
+
+function puzzle(){
+
+ const nums=[
+  random(1,20),
+  random(1,20),
+  random(1,20)
+ ];
+
+ const answer=nums[0]+nums[1]*nums[2];
+
+ openModal(`
+  <h2 class="color">🧩 Rompecabezas</h2>
+
+  <p>
+   ¿Cuál es el resultado?
+  </p>
+
+  <div class="question color">
+   ${nums[0]} + ${nums[1]} × ${nums[2]}
+  </div>
+
+  <div class="options">
+   ${options(answer).map(n=>
+    `<button class="option"
+     onclick="puzzleAnswer(${n},${answer})">${n}</button>`
+   ).join("")}
+  </div>
+ `);
+
+ window.puzzleAnswer=function(value,correct){
+
+  if(value===correct){
+
+   addXP(60);
+   addCoins(50);
+
+   openModal(`
+    <h2 class="color">🧩 ¡Puzzle resuelto!</h2>
+    <p>+60 XP</p>
+   `);
+
+  }else{
+
+   toast("❌ Incorrecto");
+
+  }
+
+  save();
+ };
+
+}
+
+
+/* =========================
+   RACHA INFINITA
+========================= */
+
+function infinite(){
+
+ let combo=0;
+
+ function next(){
+
+  const q=question("hard");
+
+  openModal(`
+   <h2 class="color">🔥 Racha Infinita</h2>
+
+   <p>🔥 Racha actual: ${combo}</p>
+
+   <div class="question color">${q.text}</div>
+
+   <div class="options">
+   ${options(q.answer).map(n=>
+    `<button class="option"
+     onclick="infiniteAnswer(${n},${q.answer})">${n}</button>`
+   ).join("")}
+   </div>
+  `);
+
+ }
+
+ window.infiniteAnswer=function(value,correct){
+
+  if(value===correct){
+
+   combo++;
+
+   addXP(20);
+   addCoins(5);
+
+   if(combo>=10)
+    secretRoll("fire");
+
+   save();
+
+   next();
+
+  }else{
+
+   if(combo>=15)
+    secretRoll("smoke");
+
+   openModal(`
+    <h2 class="color">🔥 Racha terminada</h2>
+    <p>Conseguiste ${combo} respuestas seguidas.</p>
+   `);
+
+   save();
+  }
+
+ };
+
+ next();
+}
+
+
+/* =========================
+   INVASIÓN
+========================= */
+
+function invasion(){
+
+ let enemies=5;
+
+ function next(){
+
+  if(enemies<=0){
+
+   addXP(150);
+   addCoins(180);
+
+   secretRoll("smoke");
+
+   save();
+
+   openModal(`
+    <h2 class="color">👾 ¡INVASIÓN DETENIDA!</h2>
+    <p>Derrotaste a todos los enemigos.</p>
+   `);
+
+   return;
+  }
+
+  const q=question("medium");
+
+  openModal(`
+   <h2 class="color">👾 Invasión</h2>
+
+   <p>👾 Enemigos restantes: ${enemies}</p>
+
+   <div class="question color">${q.text}</div>
+
+   <div class="options">
+   ${options(q.answer).map(n=>
+    `<button class="option"
+     onclick="invasionAnswer(${n},${q.answer})">${n}</button>`
+   ).join("")}
+   </div>
+  `);
+
+ }
+
+ window.invasionAnswer=function(value,correct){
+
+  if(value===correct){
+   enemies--;
+   addXP(25);
+  }
+
+  save();
+  next();
+ };
+
+ next();
+}
+
+
+/* =========================
+   MODO SECRETO
+========================= */
+
+function secretMode(){
+
+ openModal(`
+  <h2 class="color">🔮 MODO SECRETO</h2>
+
+  <p>
+   Acá están los desafíos más raros de MateLabs.
+  </p>
+
+  <br>
+
+  <p>💧 <b>Agua</b> — 1% de probabilidad.</p>
+  <p>🔥 <b>Fuego</b> — 1% de probabilidad.</p>
+  <p>💨 <b>Humo</b> — 1% de probabilidad.</p>
+
+  <br>
+
+  <button class="secret" onclick="secretCode();closeModal()">
+   🔐 Código Secreto
+  </button>
+ `);
+
+}
+
+
+/* =========================
+   CHEF
+========================= */
+
+const chef=document.getElementById("chef");
+const map=document.getElementById("map");
+
+let chefX=.5;
+let chefY=.5;
+
+function moveChef(direction){
+
+ const speed=.035;
+
+ if(direction==="up")chefY-=speed;
+ if(direction==="down")chefY+=speed;
+ if(direction==="left")chefX-=speed;
+ if(direction==="right")chefX+=speed;
+
+ chefX=Math.max(.04,Math.min(.96,chefX));
+ chefY=Math.max(.08,Math.min(.92,chefY));
+
+ chef.style.left=(chefX*100)+"%";
+ chef.style.top=(chefY*100)+"%";
+
+ collectCoins();
+}
+
+
+document.addEventListener("keydown",e=>{
+
+ if(e.key==="ArrowUp"||e.key.toLowerCase()==="w")
+  moveChef("up");
+
+ if(e.key==="ArrowDown"||e.key.toLowerCase()==="s")
+  moveChef("down");
+
+ if(e.key==="ArrowLeft"||e.key.toLowerCase()==="a")
+  moveChef("left");
+
+ if(e.key==="ArrowRight"||e.key.toLowerCase()==="d")
+  moveChef("right");
+
+});
+
+
+function collectCoins(){
+
+ const chefRect=chef.getBoundingClientRect();
+
+ document.querySelectorAll(".map-coin").forEach(coin=>{
+
+  if(coin.dataset.taken)return;
+
+  const rect=coin.getBoundingClientRect();
+
+  const distance=Math.hypot(
+   chefRect.left-rect.left,
+   chefRect.top-rect.top
+  );
+
+  if(distance<45){
+
+   coin.dataset.taken="true";
+   coin.style.display="none";
+
+   addCoins(25);
+   addXP(10);
+
+   save();
+
+   toast("🪙 +25 monedas");
+
+  }
+
+ });
+
+}
+
+
+/* =========================
+   RECOMPENSA / MISIONES
+========================= */
+
+function daily(){
+
+ const today=new Date().toDateString();
+
+ if(localStorage.getItem("matelabsDaily")===today){
+  toast("🎁 Ya reclamaste tu recompensa hoy");
+  return;
+ }
+
+ localStorage.setItem("matelabsDaily",today);
+
+ addCoins(100);
+ addXP(50);
+
+ save();
+
+ toast("🎁 ¡Recompensa diaria!");
+
+}
+
+
+/* =========================
+   TROFEO OCULTO
+========================= */
+
+function hiddenTrophy(){
+
+ if(!data.secretTrophies.smoke){
+
+  data.secretTrophies.smoke=true;
+
+  addTrophy();
+  addXP(100);
+  addCoins(200);
+
+  save();
+
+  openModal(`
+   <h2 class="color">💨 ¡TROFEO SECRETO!</h2>
+
+   <p>
+    Encontraste algo que casi nadie podía ver.
+   </p>
+
+   <br>
+
+   <p>🏆 +1 Trofeo</p>
+   <p>⭐ +100 XP</p>
+   <p>🪙 +200 monedas</p>
+  `);
+
+ }else{
+
+  toast("💨 Ya encontraste este secreto.");
+
+ }
+
+}
+
+
+/* =========================
+   INICIO AUTOMÁTICO
+========================= */
+
+if(data.theme==="light")
+ document.body.classList.add("light");
+
+</script>
+
+</body>
+</html>
